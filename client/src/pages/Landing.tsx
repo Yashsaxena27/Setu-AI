@@ -3,8 +3,10 @@ import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const navigate = useNavigate();
   return (
     <main className="min-h-screen bg-slate-50">
       <Header />
@@ -31,9 +33,10 @@ export default function Landing() {
             </p>
 
             <div className="mt-8 flex gap-4">
-  <Button>
-    Get Started
-  </Button>
+              
+ <Button onClick={() => navigate("/consent")}>
+  Check Eligibility
+</Button>
 
   <Button variant="secondary">
     Learn More

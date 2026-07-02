@@ -19,7 +19,10 @@ export default function AppRouter() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/results" element={<Results />} />
         <Route path="/scheme/:id" element={<SchemeDetail />} />
-        <Route path="/draft" element={<ApplicationDraft />} />
+        <Route
+    path="/draft/:id"
+    element={<ApplicationDraft />}
+/>
         <Route path="/reminders" element={<Reminders />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />

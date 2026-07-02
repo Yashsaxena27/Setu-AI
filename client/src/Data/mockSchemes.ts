@@ -3,12 +3,11 @@ export interface Scheme {
   name: string;
   category: string;
   match: number;
-  type: "Strong" | "Partial";
-  benefits: string;
-  description: string;
-  whyMatch: string[];
+  why: string;
+  benefits: string[];
+  eligibility: string[];
   documents: string[];
-  applicationSteps: string[];
+  officialLink: string;
 }
 
 export const mockSchemes: Scheme[] = [
@@ -16,49 +15,90 @@ export const mockSchemes: Scheme[] = [
     id: 1,
     name: "PM Kisan Samman Nidhi",
     category: "Agriculture",
-    match: 95,
-    type: "Strong",
-    benefits: "₹6,000/year financial assistance",
-    description:
-      "Income support scheme for eligible farmer families.",
-    whyMatch: [
-      "You selected Farmer as occupation.",
-      "Your state supports this scheme.",
-      "Your income falls within the eligibility criteria."
+    match: 96,
+    why: "You are a small farmer from Uttar Pradesh with eligible land ownership.",
+    benefits: [
+      "₹6000 financial assistance every year",
+      "Direct Benefit Transfer",
+      "Three installments annually"
+    ],
+    eligibility: [
+      "Indian citizen",
+      "Own cultivable land",
+      "Small or marginal farmer"
     ],
     documents: [
       "Aadhaar Card",
+      "Land Records",
       "Bank Passbook",
-      "Land Records"
+      "Mobile Number"
     ],
-    applicationSteps: [
-      "Register on PM-Kisan portal.",
-      "Upload required documents.",
-      "Submit application.",
-      "Wait for verification."
-    ]
+    officialLink: "https://pmkisan.gov.in"
   },
+
   {
     id: 2,
     name: "Ayushman Bharat",
-    category: "Healthcare",
-    match: 76,
-    type: "Partial",
-    benefits: "Up to ₹5 lakh health insurance",
-    description:
-      "Health insurance coverage for eligible families.",
-    whyMatch: [
-      "Income criteria partially matched.",
-      "Your age group is eligible."
+    category: "Health",
+    match: 92,
+    why: "Your family profile satisfies the health coverage criteria.",
+    benefits: [
+      "₹5 lakh health insurance",
+      "Cashless treatment",
+      "Government & empanelled hospitals"
+    ],
+    eligibility: [
+      "Eligible beneficiary",
+      "SECC database inclusion"
     ],
     documents: [
       "Aadhaar Card",
       "Ration Card"
     ],
-    applicationSteps: [
-      "Visit nearest CSC.",
-      "Verify eligibility.",
-      "Generate Ayushman Card."
-    ]
+    officialLink: "https://pmjay.gov.in"
+  },
+
+  {
+    id: 3,
+    name: "National Scholarship Portal",
+    category: "Education",
+    match: 88,
+    why: "You are pursuing higher education and satisfy scholarship conditions.",
+    benefits: [
+      "Tuition Fee Support",
+      "Scholarship Amount"
+    ],
+    eligibility: [
+      "Student",
+      "Income Criteria"
+    ],
+    documents: [
+      "Income Certificate",
+      "Bonafide Certificate",
+      "Aadhaar Card"
+    ],
+    officialLink: "https://scholarships.gov.in"
+  },
+
+  {
+    id: 4,
+    name: "PM Awas Yojana",
+    category: "Housing",
+    match: 81,
+    why: "Your income category qualifies for affordable housing benefits.",
+    benefits: [
+      "Housing Subsidy",
+      "Interest Subsidy"
+    ],
+    eligibility: [
+      "No permanent house",
+      "Eligible income group"
+    ],
+    documents: [
+      "Income Proof",
+      "Address Proof",
+      "Aadhaar Card"
+    ],
+    officialLink: "https://pmaymis.gov.in"
   }
 ];
