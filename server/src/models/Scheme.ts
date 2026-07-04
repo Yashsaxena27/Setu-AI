@@ -8,7 +8,7 @@ const schemeSchema = new mongoose.Schema(
 
     level: String,
 
-    state_applicability: String,
+   state_applicability: [String],
 
     eligibility_rules: Object,
 

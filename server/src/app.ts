@@ -10,7 +10,7 @@ import draftRoutes from "./routes/draft";
 import reminderRoutes from "./routes/reminders";
 import helmet from "helmet";
 import morgan from "morgan";
-
+import vectorRoutes from "./routes/vectorRoutes";
 dotenv.config();
 
 const app = express();
@@ -30,7 +30,7 @@ app.use("/match", matchRoutes);
 app.use("/health", healthRoutes);
 app.use("/auth", authRoutes);
 app.use(helmet());
-
+app.use("/vector-search", vectorRoutes);
 app.use(morgan("dev"));
 
 export default app;

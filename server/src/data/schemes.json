@@ -1,0 +1,290 @@
+[
+  {
+    "scheme_name": "PM-KISAN Samman Nidhi",
+    "category": "Agriculture",
+    "level": "Central",
+    "state_applicability": ["All"],
+    "eligibility_rules": {
+      "min_age": 18,
+      "max_age": 120,
+      "income_limit": null,
+      "occupation": "Farmer"
+    },
+    "benefits": "₹6000 per year in three equal installments.",
+    "required_documents": [
+      "Aadhaar Card",
+      "Bank Passbook",
+      "Land Records"
+    ],
+    "application_steps": [
+      "Register on PM-KISAN portal",
+      "Verify Aadhaar",
+      "Submit land details",
+      "Wait for verification"
+    ],
+    "official_link": "https://pmkisan.gov.in",
+    "source_link": "https://pmkisan.gov.in",
+    "last_verified_date": "2026-07-04",
+    "summary_text": "Financial assistance for eligible farmer families through direct benefit transfer.",
+    "tags": ["farmer", "agriculture", "income support"]
+  },
+  {
+    "scheme_name": "Ayushman Bharat PM-JAY",
+    "category": "Health",
+    "level": "Central",
+    "state_applicability": ["All"],
+    "eligibility_rules": {
+      "min_age": 0,
+      "max_age": 120,
+      "income_limit": null
+    },
+    "benefits": "Health insurance coverage up to ₹5 lakh per family per year.",
+    "required_documents": [
+      "Aadhaar Card",
+      "Ration Card"
+    ],
+    "application_steps": [
+      "Check eligibility",
+      "Visit empanelled hospital",
+      "Complete verification"
+    ],
+    "official_link": "https://pmjay.gov.in",
+    "source_link": "https://pmjay.gov.in",
+    "last_verified_date": "2026-07-04",
+    "summary_text": "Cashless treatment at empanelled hospitals for eligible families.",
+    "tags": ["health", "insurance", "hospital"]
+  },
+  {
+    "scheme_name": "Pradhan Mantri Awas Yojana",
+    "category": "Housing",
+    "level": "Central",
+    "state_applicability": ["All"],
+    "eligibility_rules": {
+      "min_age": 18,
+      "max_age": 120,
+      "income_limit": 1800000
+    },
+    "benefits": "Financial assistance for affordable housing.",
+    "required_documents": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Address Proof"
+    ],
+    "application_steps": [
+      "Apply online",
+      "Upload documents",
+      "Verification",
+      "Approval"
+    ],
+    "official_link": "https://pmaymis.gov.in",
+    "source_link": "https://pmaymis.gov.in",
+    "last_verified_date": "2026-07-04",
+    "summary_text": "Housing assistance for economically weaker and middle-income families.",
+    "tags": ["housing", "home", "subsidy"]
+  },
+  {
+    "scheme_name": "PM Vishwakarma",
+    "category": "Employment",
+    "level": "Central",
+    "state_applicability": ["All"],
+    "eligibility_rules": {
+      "min_age": 18,
+      "max_age": 120,
+      "income_limit": null
+    },
+    "benefits": "Skill training, toolkit incentive and concessional loans.",
+    "required_documents": [
+      "Aadhaar Card",
+      "Mobile Number",
+      "Bank Account"
+    ],
+    "application_steps": [
+      "Register",
+      "Verification",
+      "Training",
+      "Receive benefits"
+    ],
+    "official_link": "https://pmvishwakarma.gov.in",
+    "source_link": "https://pmvishwakarma.gov.in",
+    "last_verified_date": "2026-07-04",
+    "summary_text": "Support for traditional artisans and craftspeople with training and financial assistance.",
+    "tags": ["artisan", "skill", "loan"]
+  },
+  {
+    "scheme_name": "Sukanya Samriddhi Yojana",
+    "category": "Women",
+    "level": "Central",
+    "state_applicability": ["All"],
+    "eligibility_rules": {
+      "min_age": 0,
+      "max_age": 10,
+      "gender": "Female"
+    },
+    "benefits": "High-interest savings scheme for the girl child.",
+    "required_documents": [
+      "Birth Certificate",
+      "Aadhaar Card"
+    ],
+    "application_steps": [
+      "Visit bank/post office",
+      "Open account",
+      "Deposit amount"
+    ],
+    "official_link": "https://www.nsiindia.gov.in",
+    "source_link": "https://www.nsiindia.gov.in",
+    "last_verified_date": "2026-07-04",
+    "summary_text": "Long-term savings scheme to support the education and future of girl children.",
+    "tags": ["girl child", "savings", "women"]
+  },
+{
+  "scheme_name": "National Scholarship Portal",
+  "category": "Education",
+  "level": "Central",
+  "state_applicability": ["All"],
+  "eligibility_rules": {
+    "min_age": 16,
+    "max_age": 35,
+    "income_limit": 800000
+  },
+  "benefits": [
+    "Financial assistance for eligible students."
+  ],
+  "required_documents": [
+    "Aadhaar Card",
+    "Income Certificate",
+    "Student ID"
+  ],
+  "application_steps": [
+    "Register",
+    "Fill application",
+    "Upload documents",
+    "Submit"
+  ],
+  "official_link": "https://scholarships.gov.in",
+  "source_link": "https://scholarships.gov.in",
+  "last_verified_date": "2026-07-04",
+  "summary_text": "Scholarships for eligible school and college students.",
+  "embedding": [],
+  "version_history": [],
+  "tags": ["student", "scholarship", "education"]
+},
+{
+  "scheme_name": "PM SVANidhi",
+  "category": "Employment",
+  "level": "Central",
+  "state_applicability": ["All"],
+  "eligibility_rules": {
+    "min_age": 18,
+    "max_age": 65,
+    "income_limit": null
+  },
+  "benefits": [
+    "Collateral-free working capital loan."
+  ],
+  "required_documents": [
+    "Aadhaar Card",
+    "Vendor Certificate"
+  ],
+  "application_steps": [
+    "Apply",
+    "Verification",
+    "Loan Approval"
+  ],
+  "official_link": "https://pmsvanidhi.mohua.gov.in",
+  "source_link": "https://pmsvanidhi.mohua.gov.in",
+  "last_verified_date": "2026-07-04",
+  "summary_text": "Loan support for street vendors.",
+  "embedding": [],
+  "version_history": [],
+  "tags": ["vendor", "loan", "employment"]
+},
+{
+  "scheme_name": "Atal Pension Yojana",
+  "category": "Pension",
+  "level": "Central",
+  "state_applicability": ["All"],
+  "eligibility_rules": {
+    "min_age": 18,
+    "max_age": 40,
+    "income_limit": null
+  },
+  "benefits": [
+    "Guaranteed monthly pension after 60 years."
+  ],
+  "required_documents": [
+    "Aadhaar Card",
+    "Bank Account"
+  ],
+  "application_steps": [
+    "Visit bank",
+    "Enroll",
+    "Start contribution"
+  ],
+  "official_link": "https://www.npscra.nsdl.co.in",
+  "source_link": "https://www.npscra.nsdl.co.in",
+  "last_verified_date": "2026-07-04",
+  "summary_text": "Government-backed pension scheme for workers.",
+  "embedding": [],
+  "version_history": [],
+  "tags": ["pension", "retirement"]
+},
+{
+  "scheme_name": "PM Ujjwala Yojana",
+  "category": "Women",
+  "level": "Central",
+  "state_applicability": ["All"],
+  "eligibility_rules": {
+    "min_age": 18,
+    "max_age": 120,
+    "income_limit": null
+  },
+  "benefits": [
+    "Free LPG connection for eligible households."
+  ],
+  "required_documents": [
+    "Aadhaar Card",
+    "Ration Card"
+  ],
+  "application_steps": [
+    "Apply",
+    "Verification",
+    "Receive LPG connection"
+  ],
+  "official_link": "https://www.pmuy.gov.in",
+  "source_link": "https://www.pmuy.gov.in",
+  "last_verified_date": "2026-07-04",
+  "summary_text": "Provides LPG connections to eligible women from poor households.",
+  "embedding": [],
+  "version_history": [],
+  "tags": ["lpg", "women", "gas"]
+},
+{
+  "scheme_name": "Accessible India Campaign",
+  "category": "Disability",
+  "level": "Central",
+  "state_applicability": ["All"],
+  "eligibility_rules": {
+    "min_age": 0,
+    "max_age": 120,
+    "disability": true
+  },
+  "benefits": [
+    "Accessibility support and inclusive infrastructure."
+  ],
+  "required_documents": [
+    "Disability Certificate",
+    "Aadhaar Card"
+  ],
+  "application_steps": [
+    "Apply",
+    "Verification"
+  ],
+  "official_link": "https://depwd.gov.in",
+  "source_link": "https://depwd.gov.in",
+  "last_verified_date": "2026-07-04",
+  "summary_text": "Supports persons with disabilities through accessibility initiatives.",
+  "embedding": [],
+  "version_history": [],
+  "tags": ["disability", "accessibility"]
+}
+]
