@@ -5,7 +5,7 @@ import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/common/Button";
 
-import { mockSchemes } from "../Data/mockSchemes";
+import { mockSchemes } from "../data/mockSchemes";
 
 export default function ApplicationDraft() {
   const { id } = useParams();
