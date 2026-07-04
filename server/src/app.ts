@@ -11,6 +11,7 @@ import reminderRoutes from "./routes/reminders";
 import helmet from "helmet";
 import morgan from "morgan";
 import vectorRoutes from "./routes/vectorRoutes";
+
 dotenv.config();
 
 const app = express();

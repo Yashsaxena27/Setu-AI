@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { generateDraft } from "../controllers/draftController";
+import { createDraft } from "../controllers/draftController";
 
 const router = Router();
 
-router.post("/", generateDraft);
+router.post("/", createDraft);
 
 export default router;

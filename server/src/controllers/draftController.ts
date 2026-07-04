@@ -1,28 +1,24 @@
 import { Request, Response } from "express";
+import { generateDraft } from "../services/draftService";
 
-export const generateDraft = (
+export async function createDraft(
   req: Request,
   res: Response
-) => {
+) {
+  try {
+    const draft = await generateDraft(
+      req.body.profile,
+      req.body.scheme
+    );
 
-  res.json({
-
-    scheme:req.body.scheme,
-
-    applicant:req.body.user,
-
-    draft:
-
-`Application Draft
-
-Applicant:
-${req.body.user}
-
-Scheme:
-${req.body.scheme}
-
-This draft has been generated successfully.`
-
-  });
-
-};
+    res.json({
+      success: true,
+      draft,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+}
