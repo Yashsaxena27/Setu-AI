@@ -1,7 +1,7 @@
-const BASE_URL = "http://localhost:5000";
+import API from "../services/api";
 
 export async function saveProfile(profile: any) {
-  const response = await fetch(`${BASE_URL}/profile`, {
+  const response = await fetch(`${API}/profile`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
