@@ -1,41 +1,50 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { generateDraft } from "../services/draft";
+
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/common/Button";
 
-import { mockSchemes } from "../data/mockSchemes";
-
 export default function ApplicationDraft() {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const scheme = mockSchemes.find(
-    (s) => s.id === Number(id)
+  const scheme = location.state;
+
+  const [draft, setDraft] = useState(
+    "Generating application draft..."
   );
+
+  useEffect(() => {
+    if (!scheme) return;
+
+    const profile = JSON.parse(
+      localStorage.getItem("profile") || "{}"
+    );
+
+    async function loadDraft() {
+      try {
+        const result = await generateDraft(
+          profile,
+          scheme
+        );
+
+        setDraft(result.draft);
+      } catch (err) {
+        console.error(err);
+        setDraft("Unable to generate draft.");
+      }
+    }
+
+    loadDraft();
+  }, [scheme]);
 
   if (!scheme) {
     return <PageContainer>Draft not found.</PageContainer>;
   }
-
-  const draft = `
-Application for ${scheme.name}
-
-Applicant Name: Yash Saxena
-
-Address:
-Rampur, Uttar Pradesh
-
-Reason for Applying:
-${scheme.why}
-
-Required Documents:
-${scheme.documents.join(", ")}
-
-Official Website:
-${scheme.officialLink}
-`;
 
   const copyDraft = async () => {
     await navigator.clipboard.writeText(draft);
@@ -47,7 +56,6 @@ ${scheme.officialLink}
       <Header />
 
       <PageContainer>
-
         <Button
           variant="secondary"
           onClick={() => navigate(-1)}
@@ -69,7 +77,6 @@ ${scheme.officialLink}
         >
           Copy Draft
         </Button>
-
       </PageContainer>
 
       <BottomBar />

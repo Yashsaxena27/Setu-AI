@@ -10,6 +10,7 @@ import ContactInfo from "../components/Profile/steps/ContactInfo.tsx";
 import Review from "../components/Profile/steps/Review.tsx";
 import { validateStep } from "../utils/validation";
 import { useNavigate } from "react-router-dom";
+import { getMatches } from "../services/match";
 
 export default function Profile() {
 
@@ -45,16 +46,26 @@ export default function Profile() {
   }
 };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
   if (!validateStep(step, formData)) {
     alert("Please complete all required fields.");
     return;
   }
 
-  // Temporary for Day 2
-  localStorage.setItem("profile", JSON.stringify(formData));
+  try {
+    localStorage.setItem("profile", JSON.stringify(formData));
 
-  navigate("/results");
+    const result = await getMatches(formData);
+
+    navigate("/results", {
+      state: {
+        matches: result.matches,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Failed to fetch matching schemes.");
+  }
 };
 
   return (

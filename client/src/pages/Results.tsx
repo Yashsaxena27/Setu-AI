@@ -1,16 +1,17 @@
-import { useNavigate } from "react-router-dom";
+
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 
 import Button from "../components/common/Button";
-
-import { mockSchemes } from "../data/mockSchemes";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Results() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const matches = location.state?.matches || [];
   const getColor = (score: number) => {
     if (score >= 90) return "bg-green-100 text-green-700";
     if (score >= 75) return "bg-yellow-100 text-yellow-700";
@@ -31,15 +32,20 @@ export default function Results() {
         </p>
 
         <div className="space-y-6">
-          {mockSchemes.map((scheme) => (
+          {matches.length === 0 && (
+  <div className="text-center text-gray-500 py-10">
+    No matching schemes found.
+  </div>
+)}
+          {matches.map((scheme: any) => (
             <div
-              key={scheme.id}
+              key={scheme._id}
               className="bg-white rounded-2xl shadow-md p-6 border"
             >
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-xl font-bold">
-                    {scheme.name}
+                    {scheme.scheme_name}
                   </h2>
 
                   <p className="text-gray-500">
@@ -49,10 +55,10 @@ export default function Results() {
 
                 <div
                   className={`px-4 py-2 rounded-full font-bold ${getColor(
-                    scheme.match
+                    scheme.score
                   )}`}
                 >
-                  {scheme.match}% Match
+                  {scheme.score}% Match
                 </div>
               </div>
 
@@ -62,14 +68,16 @@ export default function Results() {
                 </h3>
 
                 <p className="text-gray-700">
-                  {scheme.why}
+                 {scheme.summary}
                 </p>
               </div>
 
               <div className="flex gap-4 mt-6">
                 <Button
                   onClick={() =>
-                    navigate(`/scheme/${scheme.id}`)
+                    navigate(`/scheme/${scheme._id}`, {
+                      state: scheme,
+                    })
                   }
                 >
                   View Details
@@ -78,8 +86,12 @@ export default function Results() {
                 <Button
                   variant="secondary"
                   onClick={() =>
-                    navigate(`/draft/${scheme.id}`)
+                   navigate(`/draft/${scheme._id}`, {
+  state: scheme,
+})
                   }
+
+              
                 >
                   Generate Draft
                 </Button>

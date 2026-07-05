@@ -1,19 +1,49 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getExplanation } from "../services/explain";
+
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/common/Button";
 
-import { mockSchemes } from "../data/mockSchemes";
-
 export default function SchemeDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const scheme = mockSchemes.find(
-    (s) => s.id === Number(id)
+  const scheme = location.state;
+
+  const [whyMatch, setWhyMatch] = useState(
+    "Loading AI explanation..."
   );
+
+  useEffect(() => {
+    if (!scheme) return;
+
+    const profile = JSON.parse(
+      localStorage.getItem("profile") || "{}"
+    );
+
+    async function loadExplanation() {
+      try {
+        const result = await getExplanation(
+          scheme._id,
+          profile
+        );
+
+        setWhyMatch(result.explanation);
+      } catch (err) {
+        console.error(err);
+        setWhyMatch(
+          "Unable to generate explanation."
+        );
+      }
+    }
+
+    loadExplanation();
+  }, [scheme]);
 
   if (!scheme) {
     return (
@@ -28,7 +58,6 @@ export default function SchemeDetail() {
       <Header />
 
       <PageContainer>
-
         <Button
           variant="secondary"
           onClick={() => navigate(-1)}
@@ -37,7 +66,7 @@ export default function SchemeDetail() {
         </Button>
 
         <h1 className="text-3xl font-bold mt-6">
-          {scheme.name}
+          {scheme.scheme_name}
         </h1>
 
         <p className="text-green-600 font-semibold mt-2">
@@ -49,7 +78,9 @@ export default function SchemeDetail() {
             Why You Match
           </h2>
 
-          <p>{scheme.why}</p>
+          <p className="whitespace-pre-line">
+            {whyMatch}
+          </p>
         </div>
 
         <div className="mt-8">
@@ -58,7 +89,7 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {scheme.benefits.map((item) => (
+            {(scheme.benefits || []).map((item: string) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -70,7 +101,7 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {scheme.eligibility.map((item) => (
+            {(scheme.eligibility || []).map((item: string) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -82,14 +113,14 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {scheme.documents.map((item) => (
+            {(scheme.documents || []).map((item: string) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </div>
 
         <a
-          href={scheme.officialLink}
+          href={scheme.official_link}
           target="_blank"
           rel="noreferrer"
         >
@@ -97,7 +128,6 @@ export default function SchemeDetail() {
             Visit Official Website
           </Button>
         </a>
-
       </PageContainer>
 
       <BottomBar />
