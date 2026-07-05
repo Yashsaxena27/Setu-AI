@@ -257,7 +257,7 @@ ${scheme?.official_link || "Not available"}
     <>
       <Header />
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-indigo-50">
         <PageContainer>
           <Button
             variant="secondary"
@@ -279,7 +279,7 @@ ${scheme?.official_link || "Not available"}
               <span>Application Draft</span>
             </div>
 
-            <h1 className="mt-2 break-words text-2xl font-bold text-slate-900 sm:text-3xl">
+            <h1 className="mt-2 wrap-break-word text-2xl font-bold text-slate-900 sm:text-3xl">
               {scheme?.scheme_name || "Untitled Scheme"}
             </h1>
 
@@ -318,7 +318,7 @@ ${scheme?.official_link || "Not available"}
                 <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
                   Scheme Name
                 </p>
-                <p className="mt-1 break-words text-sm font-semibold text-slate-800">
+                <p className="mt-1 wrap-break-word text-sm font-semibold text-slate-800">
                   {scheme?.scheme_name || "--"}
                 </p>
               </div>
