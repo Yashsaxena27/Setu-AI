@@ -1,17 +1,12 @@
-import API from "./api";
+import { api } from "./api";
 
-export async function getMatches(profile: any) {
-  const response = await fetch(`${API}/match`, {
+interface MatchResponse {
+  matches: any[];
+}
+
+export function getMatches(profile: any) {
+  return api<MatchResponse>("/match", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(profile),
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch matches");
-  }
-
-  return response.json();
 }

@@ -14,6 +14,8 @@ export async function createDraft(
     res.json({
       success: true,
       draft,
+      requiredDocuments:
+        req.body.scheme.requiredDocuments ?? [],
     });
   } catch (err: any) {
     res.status(500).json({

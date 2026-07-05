@@ -9,7 +9,7 @@ import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/common/Button";
 
 export default function SchemeDetail() {
-  const { id } = useParams();
+  useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,8 +36,9 @@ export default function SchemeDetail() {
         setWhyMatch(result.explanation);
       } catch (err) {
         console.error(err);
+
         setWhyMatch(
-          "Unable to generate explanation."
+          "We couldn't generate an AI explanation right now. Please try again in a few moments."
         );
       }
     }
@@ -70,7 +71,7 @@ export default function SchemeDetail() {
         </h1>
 
         <p className="text-green-600 font-semibold mt-2">
-          {scheme.match}% Match
+          {scheme.score}% Match
         </p>
 
         <div className="bg-blue-50 p-4 rounded-xl mt-6">
@@ -78,9 +79,16 @@ export default function SchemeDetail() {
             Why You Match
           </h2>
 
-          <p className="whitespace-pre-line">
-            {whyMatch}
-          </p>
+          {whyMatch &&
+          whyMatch !== "Loading AI explanation..." ? (
+            <p className="whitespace-pre-line">
+              {whyMatch}
+            </p>
+          ) : (
+            <p className="animate-pulse text-gray-500">
+              Generating AI explanation...
+            </p>
+          )}
         </div>
 
         <div className="mt-8">
@@ -89,9 +97,11 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {(scheme.benefits || []).map((item: string) => (
-              <li key={item}>{item}</li>
-            ))}
+            {(scheme.benefits || []).map(
+              (item: string) => (
+                <li key={item}>{item}</li>
+              )
+            )}
           </ul>
         </div>
 
@@ -101,9 +111,11 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {(scheme.eligibility || []).map((item: string) => (
-              <li key={item}>{item}</li>
-            ))}
+            {(scheme.eligibility || []).map(
+              (item: string) => (
+                <li key={item}>{item}</li>
+              )
+            )}
           </ul>
         </div>
 
@@ -113,9 +125,11 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {(scheme.documents || []).map((item: string) => (
-              <li key={item}>{item}</li>
-            ))}
+            {(scheme.documents || []).map(
+              (item: string) => (
+                <li key={item}>{item}</li>
+              )
+            )}
           </ul>
         </div>
 

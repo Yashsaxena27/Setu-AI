@@ -1,13 +1,8 @@
-import API from "../services/api";
+import { api } from "./api";
 
-export async function saveProfile(profile: any) {
-  const response = await fetch(`${API}/profile`, {
+export function saveProfile(profile: any) {
+  return api("/profile", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(profile),
   });
-
-  return response.json();
 }

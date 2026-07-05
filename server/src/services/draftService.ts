@@ -3,6 +3,7 @@ let ai: any;
 async function initializeAI() {
   if (!ai) {
     const { GoogleGenAI } = await import("@google/genai");
+
     ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY!,
     });
@@ -16,7 +17,7 @@ export async function generateDraft(
   await initializeAI();
 
   const prompt = `
-Generate a simple government application draft.
+Generate a professional government application draft.
 
 Applicant:
 ${JSON.stringify(profile)}
@@ -24,14 +25,19 @@ ${JSON.stringify(profile)}
 Scheme:
 ${JSON.stringify(scheme)}
 
-Write:
-- Applicant Summary
-- Eligibility
-- Purpose
-- Required Documents
-- Submission Advice
+Write the following sections:
 
-Use plain English.
+# Applicant Summary
+
+# Eligibility
+
+# Purpose
+
+# Submission Advice
+
+Do NOT include Required Documents.
+
+Return Markdown.
 `;
 
   const result = await ai.models.generateContent({

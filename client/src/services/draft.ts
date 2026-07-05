@@ -1,23 +1,20 @@
-import API from "./api";
+import { api } from "./api";
 
-export async function generateDraft(
+interface DraftResponse {
+  success: boolean;
+  draft: string;
+  requiredDocuments: string[];
+}
+
+export function generateDraft(
   profile: any,
   scheme: any
 ) {
-  const response = await fetch(`${API}/draft`, {
+  return api<DraftResponse>("/draft", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({
       profile,
       scheme,
     }),
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to generate draft");
-  }
-
-  return response.json();
 }
