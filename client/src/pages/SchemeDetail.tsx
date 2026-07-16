@@ -15,9 +15,8 @@ export default function SchemeDetail() {
 
   const scheme = location.state;
 
-  const [whyMatch, setWhyMatch] = useState(
-    "Loading AI explanation..."
-  );
+  const [reasons, setReasons] = useState<string[]>([]);
+const [loadingReason, setLoadingReason] = useState(true);
 
   useEffect(() => {
     if (!scheme) return;
@@ -33,13 +32,32 @@ export default function SchemeDetail() {
           profile
         );
 
-        setWhyMatch(result.explanation);
+        const explanation = result.explanation ?? "";
+
+const parsedReasons = explanation
+  .split("\n")
+  .filter((line: string) => {
+  const trimmed = line.trim();
+  return trimmed.startsWith("-") || trimmed.startsWith("•");
+})
+.map((line: string) =>
+  line.replace(/^[-•]\s*/, "").trim()
+);
+  
+
+setReasons(parsedReasons);
+setLoadingReason(false);
       } catch (err) {
         console.error(err);
 
-        setWhyMatch(
-          "We couldn't generate an AI explanation right now. Please try again in a few moments."
-        );
+       setLoadingReason(false);
+
+setReasons([
+  "AI explanation is temporarily unavailable.",
+
+]);
+
+
       }
     }
 
@@ -70,25 +88,38 @@ export default function SchemeDetail() {
           {scheme.scheme_name}
         </h1>
 
-        <p className="text-green-600 font-semibold mt-2">
-          {scheme.score}% Match
-        </p>
+        <div className="mt-4 bg-green-50 rounded-xl p-4">
+  <p className="text-sm text-gray-600">
+    Match Score
+  </p>
+
+  <p className="text-4xl font-bold text-green-600">
+    {scheme.score}%
+  </p>
+</div>
 
         <div className="bg-blue-50 p-4 rounded-xl mt-6">
           <h2 className="font-bold mb-2">
             Why You Match
           </h2>
 
-          {whyMatch &&
-          whyMatch !== "Loading AI explanation..." ? (
-            <p className="whitespace-pre-line">
-              {whyMatch}
-            </p>
-          ) : (
-            <p className="animate-pulse text-gray-500">
-              Generating AI explanation...
-            </p>
-          )}
+         {loadingReason ? (
+  <p className="animate-pulse text-gray-500">
+    Generating AI explanation...
+  </p>
+) : (
+  <ul className="space-y-2 mt-3">
+    {reasons.map((reason, index) => (
+      <li
+        key={index}
+        className="flex items-start gap-2"
+      >
+        <span className="text-green-600">✔</span>
+        <span>{reason}</span>
+      </li>
+    ))}
+  </ul>
+)}
         </div>
 
         <div className="mt-8">
@@ -97,27 +128,39 @@ export default function SchemeDetail() {
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {(scheme.benefits || []).map(
-              (item: string) => (
-                <li key={item}>{item}</li>
-              )
-            )}
-          </ul>
+  {scheme.eligibility_rules &&
+    Object.entries(scheme.eligibility_rules).map(
+      ([key, value]) => (
+        <li key={key}>
+          <strong>{key}:</strong>{" "}
+          {Array.isArray(value)
+            ? value.join(", ")
+            : String(value)}
+        </li>
+      )
+    )}
+</ul>
         </div>
 
-        <div className="mt-8">
-          <h2 className="text-xl font-bold mb-3">
-            Eligibility
-          </h2>
+        <ul className="list-disc ml-6 space-y-2">
+  {scheme.eligibility_rules &&
+    Object.entries(scheme.eligibility_rules).map(([key, value]) => {
+      if (value === null || value === undefined) return null;
 
-          <ul className="list-disc ml-6 space-y-2">
-            {(scheme.eligibility || []).map(
-              (item: string) => (
-                <li key={item}>{item}</li>
-              )
-            )}
-          </ul>
-        </div>
+      const label = key
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+
+      return (
+        <li key={key}>
+          <strong>{label}:</strong>{" "}
+          {Array.isArray(value)
+            ? value.join(", ")
+            : String(value)}
+        </li>
+      );
+    })}
+</ul>
 
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-3">
