@@ -16,7 +16,7 @@ export default function SchemeDetail() {
   const scheme = location.state;
 
   const [reasons, setReasons] = useState<string[]>([]);
-const [loadingReason, setLoadingReason] = useState(true);
+  const [loadingReason, setLoadingReason] = useState(true);
 
   useEffect(() => {
     if (!scheme) return;
@@ -34,30 +34,26 @@ const [loadingReason, setLoadingReason] = useState(true);
 
         const explanation = result.explanation ?? "";
 
-const parsedReasons = explanation
-  .split("\n")
-  .filter((line: string) => {
-  const trimmed = line.trim();
-  return trimmed.startsWith("-") || trimmed.startsWith("•");
-})
-.map((line: string) =>
-  line.replace(/^[-•]\s*/, "").trim()
-);
-  
+        const parsedReasons = explanation
+          .split("\n")
+          .filter((line: string) => {
+            const trimmed = line.trim();
+            return trimmed.startsWith("-") || trimmed.startsWith("•");
+          })
+          .map((line: string) =>
+            line.replace(/^[-•]\s*/, "").trim()
+          );
 
-setReasons(parsedReasons);
-setLoadingReason(false);
+        setReasons(parsedReasons);
+        setLoadingReason(false);
       } catch (err) {
         console.error(err);
 
-       setLoadingReason(false);
+        setLoadingReason(false);
 
-setReasons([
-  "AI explanation is temporarily unavailable.",
-
-]);
-
-
+        setReasons([
+          "AI explanation is temporarily unavailable.",
+        ]);
       }
     }
 
@@ -89,86 +85,87 @@ setReasons([
         </h1>
 
         <div className="mt-4 bg-green-50 rounded-xl p-4">
-  <p className="text-sm text-gray-600">
-    Match Score
-  </p>
+          <p className="text-sm text-gray-600">
+            Match Score
+          </p>
 
-  <p className="text-4xl font-bold text-green-600">
-    {scheme.score}%
-  </p>
-</div>
+          <p className="text-4xl font-bold text-green-600">
+            {scheme.score}%
+          </p>
+        </div>
 
         <div className="bg-blue-50 p-4 rounded-xl mt-6">
           <h2 className="font-bold mb-2">
             Why You Match
           </h2>
 
-         {loadingReason ? (
-  <p className="animate-pulse text-gray-500">
-    Generating AI explanation...
-  </p>
-) : (
-  <ul className="space-y-2 mt-3">
-    {reasons.map((reason, index) => (
-      <li
-        key={index}
-        className="flex items-start gap-2"
-      >
-        <span className="text-green-600">✔</span>
-        <span>{reason}</span>
-      </li>
-    ))}
-  </ul>
-)}
+          {loadingReason ? (
+            <p className="animate-pulse text-gray-500">
+              Generating AI explanation...
+            </p>
+          ) : (
+            <ul className="space-y-2 mt-3">
+              {reasons.map((reason, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2"
+                >
+                  <span className="text-green-600">✔</span>
+                  <span>{reason}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
+        {/* Bug 1 fix: Benefits section now uses scheme.benefits instead of eligibility_rules */}
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-3">
             Benefits
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-  {scheme.eligibility_rules &&
-    Object.entries(scheme.eligibility_rules).map(
-      ([key, value]) => (
-        <li key={key}>
-          <strong>{key}:</strong>{" "}
-          {Array.isArray(value)
-            ? value.join(", ")
-            : String(value)}
-        </li>
-      )
-    )}
-</ul>
+            {(scheme.benefits || []).map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </div>
 
-        <ul className="list-disc ml-6 space-y-2">
-  {scheme.eligibility_rules &&
-    Object.entries(scheme.eligibility_rules).map(([key, value]) => {
-      if (value === null || value === undefined) return null;
+        {/* Bug 2 fix: Added missing "Eligibility" heading + wrapping div */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-3">
+            Eligibility
+          </h2>
 
-      const label = key
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, (c) => c.toUpperCase());
+          <ul className="list-disc ml-6 space-y-2">
+            {scheme.eligibility_rules &&
+              Object.entries(scheme.eligibility_rules).map(([key, value]) => {
+                if (value === null || value === undefined) return null;
 
-      return (
-        <li key={key}>
-          <strong>{label}:</strong>{" "}
-          {Array.isArray(value)
-            ? value.join(", ")
-            : String(value)}
-        </li>
-      );
-    })}
-</ul>
+                const label = key
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (c) => c.toUpperCase());
 
+                return (
+                  <li key={key}>
+                    <strong>{label}:</strong>{" "}
+                    {Array.isArray(value)
+                      ? value.join(", ")
+                      : String(value)}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+
+        {/* Bug 3 fix: Required Documents now uses scheme.required_documents */}
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-3">
             Required Documents
           </h2>
 
           <ul className="list-disc ml-6 space-y-2">
-            {(scheme.documents || []).map(
+            {(scheme.required_documents || []).map(
               (item: string) => (
                 <li key={item}>{item}</li>
               )

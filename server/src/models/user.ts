@@ -11,25 +11,25 @@ const userSchema = new mongoose.Schema(
 
     password: String,
 
-    demographics: {
-      age: Number,
+    age: String,
 
-      state: String,
+    gender: String,
 
-      district: String,
+    state: String,
 
-      income_bracket: String,
-    },
+    district: String,
 
     occupation: String,
 
-    disability_status: Boolean,
+    income: String,
 
-    education_level: String,
+    education: String,
 
-    language_preference: String,
+    disability: String,
 
-    phone_whatsapp: String,
+    language: String,
+
+    phone: String,
 
     consent_given: Boolean,
 
@@ -41,9 +41,9 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.index({
-  "demographics.age": 1,
-  "demographics.state": 1,
-  "demographics.income_bracket": 1,
+  state: 1,
+  occupation: 1,
+  income: 1,
 });
 
 export default mongoose.model("User", userSchema);

@@ -66,8 +66,10 @@ export default function ApplicationDraft() {
         );
 
         setDraft(result.draft);
+        // Bug 2 fix: backend only returns the draft, document checklist
+        // should come from the scheme object itself (required_documents field)
         setRequiredDocuments(
-          result.requiredDocuments || []
+          scheme.required_documents || []
         );
       } catch (err) {
         console.error(err);
@@ -131,10 +133,12 @@ ${scheme?.official_link || "Not available"}
 
     try {
       const canvas = await html2canvas(pdfRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-      });
+  scale: 2,
+  useCORS: true,
+  backgroundColor: "#ffffff",
+  logging: false,
+  foreignObjectRendering: true,
+});
 
       const imgData = canvas.toDataURL("image/png");
 
@@ -346,9 +350,9 @@ ${scheme?.official_link || "Not available"}
                   Match %
                 </p>
                 <p className="mt-1">
-                  {scheme?.match_percentage != null ? (
+                  {scheme?.score != null ? (
                     <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-semibold text-green-700">
-                      {scheme.match_percentage}% Match
+                      {scheme.score}% Match
                     </span>
                   ) : (
                     <span className="text-sm font-semibold text-slate-800">--</span>
@@ -361,7 +365,7 @@ ${scheme?.official_link || "Not available"}
                   State
                 </p>
                 <p className="mt-1 text-sm font-semibold text-slate-800">
-                  {scheme?.state || "--"}
+                  {scheme?.state_applicability?.join(", ") || "--"}
                 </p>
               </div>
             </div>

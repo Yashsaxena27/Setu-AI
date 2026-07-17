@@ -9,22 +9,30 @@ import ApplicationDraft from "../pages/ApplicationDraft";
 import Reminders from "../pages/Reminders";
 import Settings from "../pages/Settings";
 import NotFound from "../pages/NotFound";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/consent" element={<Consent />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/scheme/:id" element={<SchemeDetail />} />
-        <Route
-    path="/draft/:id"
-    element={<ApplicationDraft />}
-/>
-        <Route path="/reminders" element={<Reminders />} />
-        <Route path="/settings" element={<Settings />} />
+
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/consent" element={<Consent />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/scheme/:id" element={<SchemeDetail />} />
+          <Route path="/draft/:id" element={<ApplicationDraft />} />
+          <Route path="/reminders" element={<Reminders />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/user";
 import generateToken from "../utils/generateToken";
-
+import { AuthRequest } from "../middleware/authMiddleware";
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
@@ -85,3 +85,17 @@ export const login = async (req: Request, res: Response) => {
     });
   }
 };
+
+export async function deleteAccount(req: AuthRequest, res: Response) {
+  try {
+    await User.findByIdAndDelete(req.userId);
+
+    res.json({
+      message: "Account deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Unable to delete account",
+    });
+  }
+}

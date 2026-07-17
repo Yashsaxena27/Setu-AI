@@ -1,8 +1,26 @@
 import { api } from "./api";
 
-export function saveProfile(profile: any) {
+export interface Profile {
+  name: string;
+  age: string;
+  gender: string;
+  state: string;
+  district: string;
+  occupation: string;
+  income: string;
+  education: string;
+  disability: string;
+  language: string;
+  phone: string;
+}
+
+export function getProfile() {
+  return api<Profile>("/profile");
+}
+
+export function saveProfile(profile: Profile) {
   return api("/profile", {
-    method: "POST",
+    method: "PUT",
     body: JSON.stringify(profile),
   });
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import { saveProfile } from "../services/profileApi";
+import { saveProfile, getProfile } from "../services/profileApi";
 import { getMatches } from "../services/match";
 
 import ProgressBar from "../components/Profile/ProgressBar";
@@ -14,6 +14,50 @@ import ContactInfo from "../components/Profile/steps/ContactInfo";
 import Review from "../components/Profile/steps/Review";
 
 import { validateStep } from "../utils/validation";
+
+const demoProfiles = {
+  farmer: {
+    name: "Ramesh Kumar",
+    age: "42",
+    gender: "Male",
+    state: "Uttar Pradesh",
+    district: "Lucknow",
+    occupation: "Farmer",
+    income: "180000",
+    education: "High School",
+    disability: "No",
+    language: "Hindi",
+    phone: "9876543210",
+  },
+
+  student: {
+    name: "Priya Sharma",
+    age: "20",
+    gender: "Female",
+    state: "Delhi",
+    district: "New Delhi",
+    occupation: "Student",
+    income: "250000",
+    education: "Undergraduate",
+    disability: "No",
+    language: "English",
+    phone: "9876543211",
+  },
+
+  women: {
+    name: "Sunita Devi",
+    age: "29",
+    gender: "Female",
+    state: "Uttar Pradesh",
+    district: "Lucknow",
+    occupation: "Homemaker",
+    income: "120000",
+    education: "High School",
+    disability: "No",
+    language: "Hindi",
+    phone: "9876543212",
+  },
+};
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -37,6 +81,41 @@ export default function Profile() {
     phone: "",
   });
 
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const profile = await getProfile();
+
+        if (!profile) return;
+
+        setFormData({
+          name: profile.name || "",
+          age: profile.age || "",
+          gender: profile.gender || "",
+          state: profile.state || "",
+          district: profile.district || "",
+          occupation: profile.occupation || "",
+          income: profile.income || "",
+          education: profile.education || "",
+          disability: profile.disability || "",
+          language: profile.language || "",
+          phone: profile.phone || "",
+        });
+      } catch {
+        // Ignore if no saved profile exists
+      }
+    }
+
+    loadProfile();
+  }, []);
+
+  const loadDemoProfile = (
+    type: keyof typeof demoProfiles
+  ) => {
+    setFormData(demoProfiles[type]);
+    setStep(6);
+  };
+
   const nextStep = () => {
     if (!validateStep(step, formData)) {
       alert("Please complete all required fields.");
@@ -57,14 +136,15 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      //await saveProfile(formData);
+    await saveProfile(formData);
 
-      localStorage.setItem(
-        "profile",
-        JSON.stringify(formData)
-      );
+const result = await getMatches(formData);
 
-      const result = await getMatches(formData);
+navigate("/results", {
+  state: {
+    matches: result.matches,
+  },
+});
 
       navigate("/results", {
         state: {
@@ -83,16 +163,43 @@ export default function Profile() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <StepIndicator
-        current={step}
-        total={totalSteps}
-      />
+      <StepIndicator current={step} total={totalSteps} />
+
+      <div className="mt-6 mb-4">
+        <p className="text-sm font-semibold mb-2">
+          🚀 Quick Demo Profiles
+        </p>
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => loadDemoProfile("farmer")}
+            className="px-3 py-2 rounded-lg bg-green-600 text-white"
+          >
+            👨‍🌾 Farmer
+          </button>
+
+          <button
+            onClick={() => loadDemoProfile("student")}
+            className="px-3 py-2 rounded-lg bg-blue-600 text-white"
+          >
+            👩 Student
+          </button>
+
+          <button
+            onClick={() => loadDemoProfile("women")}
+            className="px-3 py-2 rounded-lg bg-orange-600 text-white"
+          >
+            👩‍🦰 Women
+          </button>
+
+          <p className="mt-2 text-xs text-gray-500 italic">
+            Use these pre-filled profiles to quickly explore scheme recommendations.
+          </p>
+        </div>
+      </div>
 
       <div className="mt-4">
-        <ProgressBar
-          current={step}
-          total={totalSteps}
-        />
+        <ProgressBar current={step} total={totalSteps} />
       </div>
 
       <div className="mt-8">
