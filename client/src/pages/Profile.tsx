@@ -36,6 +36,7 @@ const demoProfiles = {
     disability: "No",
     language: "Hindi",
     phone: "9876543210",
+    rawText: "I am a small farmer seeking agricultural subsidies, crop insurance, farming equipment support, and fertilizer benefits.",
   },
   student: {
     name: "Priya Sharma",
@@ -49,6 +50,7 @@ const demoProfiles = {
     disability: "No",
     language: "English",
     phone: "9876543211",
+    rawText: "I am a student looking for higher education scholarships, tuition assistance, and learning fellowships.",
   },
   women: {
     name: "Sunita Devi",
@@ -56,12 +58,13 @@ const demoProfiles = {
     gender: "Female",
     state: "Uttar Pradesh",
     district: "Lucknow",
-    occupation: "Homemaker",
+    occupation: "Woman",
     income: "120000",
     education: "High School",
     disability: "No",
     language: "Hindi",
     phone: "9876543212",
+    rawText: "I am a woman seeking social welfare benefits, self-help group loans, and family safety schemes.",
   },
 };
 
@@ -85,6 +88,7 @@ export default function Profile() {
     disability: "",
     language: "",
     phone: "",
+    rawText: "",
   });
 
   useEffect(() => {
@@ -104,6 +108,7 @@ export default function Profile() {
           disability: profile.disability || "",
           language: profile.language || "",
           phone: profile.phone || "",
+          rawText: profile.rawText || "",
         });
       } catch {
         // Ignore if no saved profile exists
@@ -143,6 +148,7 @@ export default function Profile() {
     try {
       await saveProfile(formData);
       const result = await getMatches(formData);
+      localStorage.removeItem("reasoningShown");
       navigate("/results", {
         state: {
           matches: result.matches,

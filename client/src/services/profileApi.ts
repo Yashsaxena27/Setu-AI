@@ -12,6 +12,7 @@ export interface Profile {
   disability: string;
   language: string;
   phone: string;
+  rawText?: string;
 }
 
 export function getProfile() {

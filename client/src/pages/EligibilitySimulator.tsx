@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { simulateEligibility } from "../services/simulatorApi";
 import { getProfile, type Profile } from "../services/profileApi";
 import { FaPlay, FaUndo, FaBriefcase, FaGraduationCap, FaArrowDown, FaArrowUp, FaArrowLeft, FaTimesCircle, FaInfoCircle } from "react-icons/fa";
@@ -243,6 +244,48 @@ export default function EligibilitySimulator() {
               ) : (
                 <div className="space-y-6">
                   
+                  {/* Before vs After Parameters Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 bg-white/50 border border-[#0F172A]/5 p-6 rounded-2xl">
+                    <div className="space-y-1">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Original Profile</span>
+                      <div className="text-xs space-y-1 font-semibold text-[#0F172A]">
+                        <p>Income: ₹{Number(originalProfile.income || 0).toLocaleString()}</p>
+                        <p>Age: {originalProfile.age} yrs</p>
+                        <p>Occupation: {originalProfile.occupation || "Unspecified"}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center text-[#14B8A6] flex flex-col items-center justify-center">
+                      <span className="text-[14px]">➔</span>
+                      <span className="text-[9px] uppercase tracking-wider font-extrabold text-slate-400 mt-1">Simulated</span>
+                    </div>
+
+                    <div className="space-y-1 bg-[#14B8A6]/5 p-3 rounded-xl border border-[#14B8A6]/10">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-[#0D9488]">Simulated Profile</span>
+                      <div className="text-xs space-y-1 font-semibold text-[#0F172A]">
+                        <p className={originalProfile.income !== simulatedProfile.income ? "text-[#14B8A6] font-bold" : ""}>
+                          Income: ₹{Number(simulatedProfile.income || 0).toLocaleString()}
+                        </p>
+                        <p className={originalProfile.age !== simulatedProfile.age ? "text-[#14B8A6] font-bold" : ""}>
+                          Age: {simulatedProfile.age} yrs
+                        </p>
+                        <p className={originalProfile.occupation !== simulatedProfile.occupation ? "text-[#14B8A6] font-bold" : ""}>
+                          Occupation: {simulatedProfile.occupation || "Unspecified"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Summary Banner */}
+                  {(results.gained?.length > 0 || results.lost?.length > 0) && (
+                    <Card className="border border-[#14B8A6]/15 bg-[#14B8A6]/5 p-5 rounded-2xl flex flex-col gap-1.5 shadow-soft">
+                      <h3 className="font-serif text-base font-bold text-[#0F172A]">Simulation Summary</h3>
+                      <p className="text-xs text-slate-600 font-medium">
+                        Your profile change unlocked <span className="text-[#22C55E] font-extrabold">{results.gained?.length || 0} new schemes</span> and restricted eligibility on <span className="text-[#EF4444] font-extrabold">{results.lost?.length || 0} schemes</span>.
+                      </p>
+                    </Card>
+                  )}
+
                   {/* NEWLY ELIGIBLE */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -255,14 +298,24 @@ export default function EligibilitySimulator() {
                     {results.gained?.length === 0 ? (
                       <p className="text-xs text-slate-400 font-semibold pl-4">No additional schemes qualified.</p>
                     ) : (
-                      <div className="space-y-3 pl-4 border-l border-[#22C55E]/20">
+                      <motion.div
+                        className="space-y-3 pl-4 border-l border-[#22C55E]/20"
+                        variants={{ animate: { transition: { staggerChildren: 0.08 } } }}
+                        initial="initial"
+                        animate="animate"
+                      >
                         {results.gained.map((scheme: any) => (
-                          <Card key={scheme._id} className="border border-[#22C55E]/10 bg-[#22C55E]/5 p-4 rounded-xl">
-                            <h4 className="font-serif text-sm font-bold text-[#0F172A]">{scheme.scheme_name}</h4>
-                            <p className="text-xs text-slate-500 mt-1">{scheme.summary_text || "You qualify under new criteria parameters."}</p>
-                          </Card>
+                          <motion.div
+                            key={scheme._id}
+                            variants={{ initial: { opacity: 0, x: -10 }, animate: { opacity: 1, x: 0 } }}
+                          >
+                            <Card className="border border-[#22C55E]/10 bg-[#22C55E]/5 p-4 rounded-xl shadow-soft">
+                              <h4 className="font-serif text-sm font-bold text-[#0F172A]">{scheme.scheme_name}</h4>
+                              <p className="text-xs text-slate-500 mt-1">{scheme.summary_text || "You qualify under new criteria parameters."}</p>
+                            </Card>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                   </div>
 
@@ -278,15 +331,25 @@ export default function EligibilitySimulator() {
                     {results.lost?.length === 0 ? (
                       <p className="text-xs text-slate-400 font-semibold pl-4">No qualified schemes lost.</p>
                     ) : (
-                      <div className="space-y-3 pl-4 border-l border-[#EF4444]/20">
+                      <motion.div
+                        className="space-y-3 pl-4 border-l border-[#EF4444]/20"
+                        variants={{ animate: { transition: { staggerChildren: 0.08 } } }}
+                        initial="initial"
+                        animate="animate"
+                      >
                         {results.lost.map((scheme: any) => (
-                          <Card key={scheme._id} className="border border-[#EF4444]/10 bg-[#EF4444]/5 p-4 rounded-xl">
-                            <h4 className="font-serif text-sm font-bold text-[#0F172A] flex items-center gap-2">
-                              <FaTimesCircle className="text-[#EF4444]" /> {scheme.scheme_name}
-                            </h4>
-                          </Card>
+                          <motion.div
+                            key={scheme._id}
+                            variants={{ initial: { opacity: 0, x: -10 }, animate: { opacity: 1, x: 0 } }}
+                          >
+                            <Card className="border border-[#EF4444]/10 bg-[#EF4444]/5 p-4 rounded-xl shadow-soft">
+                              <h4 className="font-serif text-sm font-bold text-[#0F172A] flex items-center gap-2">
+                                <FaTimesCircle className="text-[#EF4444]" /> {scheme.scheme_name}
+                              </h4>
+                            </Card>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                   </div>
 
@@ -302,14 +365,24 @@ export default function EligibilitySimulator() {
                     {results.unchanged?.length === 0 ? (
                       <p className="text-xs text-slate-400 font-semibold pl-4">No matching schemes unchanged.</p>
                     ) : (
-                      <div className="space-y-3 pl-4 border-l border-[#14B8A6]/20">
+                      <motion.div
+                        className="space-y-3 pl-4 border-l border-[#14B8A6]/20"
+                        variants={{ animate: { transition: { staggerChildren: 0.08 } } }}
+                        initial="initial"
+                        animate="animate"
+                      >
                         {results.unchanged.map((scheme: any) => (
-                          <Card key={scheme._id} className="border border-[#0F172A]/5 bg-white p-4 rounded-xl">
-                            <h4 className="font-serif text-sm font-bold text-[#0F172A]">{scheme.scheme_name}</h4>
-                            <p className="text-xs text-slate-500 mt-1">{scheme.summary_text}</p>
-                          </Card>
+                          <motion.div
+                            key={scheme._id}
+                            variants={{ initial: { opacity: 0, x: -10 }, animate: { opacity: 1, x: 0 } }}
+                          >
+                            <Card className="border border-[#0F172A]/5 bg-white p-4 rounded-xl shadow-soft">
+                              <h4 className="font-serif text-sm font-bold text-[#0F172A]">{scheme.scheme_name}</h4>
+                              <p className="text-xs text-slate-500 mt-1">{scheme.summary_text}</p>
+                            </Card>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
                   </div>
 
