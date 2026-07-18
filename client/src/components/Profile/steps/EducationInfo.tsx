@@ -1,17 +1,12 @@
-import React from 'react';
+import Select from "../../ui/Select";
 
 type Props = {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 };
 
-export default function EducationInfo({
-  formData,
-  setFormData,
-}: Props) {
-  const handleChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+export default function EducationInfo({ formData, setFormData }: Props) {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -20,43 +15,31 @@ export default function EducationInfo({
 
   return (
     <div className="space-y-5">
+      <Select
+        label="Education Qualification"
+        name="education"
+        value={formData.education}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select Qualification</option>
+        <option value="School">School</option>
+        <option value="Graduate">Graduate</option>
+        <option value="Post Graduate">Post Graduate</option>
+        <option value="Other">Other</option>
+      </Select>
 
-      <div>
-        <label className="block mb-2 font-medium">
-          Education
-        </label>
-
-        <select
-          name="education"
-          value={formData.education}
-          onChange={handleChange}
-          className="w-full border rounded-xl p-3"
-        >
-          <option value="">Select</option>
-          <option>School</option>
-          <option>Graduate</option>
-          <option>Post Graduate</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block mb-2 font-medium">
-          Disability
-        </label>
-
-        <select
-          name="disability"
-          value={formData.disability}
-          onChange={handleChange}
-          className="w-full border rounded-xl p-3"
-        >
-          <option value="">Select</option>
-          <option>No</option>
-          <option>Yes</option>
-        </select>
-      </div>
-
+      <Select
+        label="Disability Status"
+        name="disability"
+        value={formData.disability}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select Status</option>
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </Select>
     </div>
   );
 }

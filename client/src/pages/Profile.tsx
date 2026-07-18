@@ -15,6 +15,14 @@ import Review from "../components/Profile/steps/Review";
 
 import { validateStep } from "../utils/validation";
 
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import BottomBar from "../components/layout/BottomBar";
+import PageContainer from "../components/layout/PageContainer";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import Badge from "../components/ui/Badge";
+
 const demoProfiles = {
   farmer: {
     name: "Ramesh Kumar",
@@ -29,7 +37,6 @@ const demoProfiles = {
     language: "Hindi",
     phone: "9876543210",
   },
-
   student: {
     name: "Priya Sharma",
     age: "20",
@@ -43,7 +50,6 @@ const demoProfiles = {
     language: "English",
     phone: "9876543211",
   },
-
   women: {
     name: "Sunita Devi",
     age: "29",
@@ -85,9 +91,7 @@ export default function Profile() {
     async function loadProfile() {
       try {
         const profile = await getProfile();
-
         if (!profile) return;
-
         setFormData({
           name: profile.name || "",
           age: profile.age || "",
@@ -105,13 +109,10 @@ export default function Profile() {
         // Ignore if no saved profile exists
       }
     }
-
     loadProfile();
   }, []);
 
-  const loadDemoProfile = (
-    type: keyof typeof demoProfiles
-  ) => {
+  const loadDemoProfile = (type: keyof typeof demoProfiles) => {
     setFormData(demoProfiles[type]);
     setStep(6);
   };
@@ -121,9 +122,14 @@ export default function Profile() {
       alert("Please complete all required fields.");
       return;
     }
-
     if (step < totalSteps) {
       setStep((prev) => prev + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step > 1) {
+      setStep((prev) => prev - 1);
     }
   };
 
@@ -134,134 +140,129 @@ export default function Profile() {
     }
 
     setLoading(true);
-
     try {
-    await saveProfile(formData);
-
-const result = await getMatches(formData);
-
-navigate("/results", {
-  state: {
-    matches: result.matches,
-  },
-});
-
-      
+      await saveProfile(formData);
+      const result = await getMatches(formData);
+      navigate("/results", {
+        state: {
+          matches: result.matches,
+        },
+      });
     } catch (error) {
       console.error(error);
-      alert(
-        "Unable to connect to the server. Please try again."
-      );
+      alert("Unable to connect to the server. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <StepIndicator current={step} total={totalSteps} />
+    <main className="min-h-screen bg-[#FAF8F3] font-sans pb-16 md:pb-0">
+      <Header />
 
-      <div className="mt-6 mb-4">
-        <p className="text-sm font-semibold mb-2">
-          🚀 Quick Demo Profiles
-        </p>
+      <PageContainer>
+        <div className="max-w-xl mx-auto space-y-8">
+          
+          {/* Header */}
+          <div className="space-y-2 text-center">
+            <Badge variant="accent">Welfare Eligibility Setup</Badge>
+            <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0F172A]">
+              Citizen Profile Wizard
+            </h1>
+            <p className="text-slate-500 text-sm font-medium">
+              Provide your details to match with schemes you qualify for.
+            </p>
+          </div>
 
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => loadDemoProfile("farmer")}
-            className="px-3 py-2 rounded-lg bg-green-600 text-white"
-          >
-            👨‍🌾 Farmer
-          </button>
+          {/* Quick Demo Selector */}
+          <Card className="border border-[#0F172A]/5 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+              🚀 Try a Demo Profile template
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                onClick={() => loadDemoProfile("farmer")}
+                className="px-3 py-2.5 rounded-xl border border-[#22C55E]/10 bg-[#22C55E]/5 text-xs font-semibold text-[#22C55E] hover:bg-[#22C55E]/10 transition duration-150 cursor-pointer"
+              >
+                👨‍🌾 Farmer
+              </button>
+              <button
+                onClick={() => loadDemoProfile("student")}
+                className="px-3 py-2.5 rounded-xl border border-[#14B8A6]/10 bg-[#14B8A6]/5 text-xs font-semibold text-[#14B8A6] hover:bg-[#14B8A6]/10 transition duration-150 cursor-pointer"
+              >
+                👩 Student
+              </button>
+              <button
+                onClick={() => loadDemoProfile("women")}
+                className="px-3 py-2.5 rounded-xl border border-[#F59E0B]/10 bg-[#F59E0B]/5 text-xs font-semibold text-[#D97706] hover:bg-[#F59E0B]/10 transition duration-150 cursor-pointer"
+              >
+                👩‍🦰 Women
+              </button>
+            </div>
+            <p className="mt-2.5 text-[10px] text-slate-400 font-semibold leading-normal">
+              Clicking a template automatically fills all credentials and jumps directly to the Review screen.
+            </p>
+          </Card>
 
-          <button
-            onClick={() => loadDemoProfile("student")}
-            className="px-3 py-2 rounded-lg bg-blue-600 text-white"
-          >
-            👩 Student
-          </button>
+          {/* Form Wizard Wrapper */}
+          <Card className="border border-[#0F172A]/5 p-8 shadow-premium space-y-6">
+            <div>
+              <StepIndicator current={step} total={totalSteps} />
+              <div className="mt-4">
+                <ProgressBar current={step} total={totalSteps} />
+              </div>
+            </div>
 
-          <button
-            onClick={() => loadDemoProfile("women")}
-            className="px-3 py-2 rounded-lg bg-orange-600 text-white"
-          >
-            👩‍🦰 Women
-          </button>
+            <div className="py-4">
+              {step === 1 && (
+                <BasicInfo formData={formData} setFormData={setFormData} />
+              )}
+              {step === 2 && (
+                <LocationInfo formData={formData} setFormData={setFormData} />
+              )}
+              {step === 3 && (
+                <OccupationInfo formData={formData} setFormData={setFormData} />
+              )}
+              {step === 4 && (
+                <EducationInfo formData={formData} setFormData={setFormData} />
+              )}
+              {step === 5 && (
+                <ContactInfo formData={formData} setFormData={setFormData} />
+              )}
+              {step === 6 && (
+                <Review formData={formData} />
+              )}
+            </div>
 
-          <p className="mt-2 text-xs text-gray-500 italic">
-            Use these pre-filled profiles to quickly explore scheme recommendations.
-          </p>
+            <div className="flex justify-between gap-4 border-t border-slate-100 pt-6">
+              {step > 1 ? (
+                <Button
+                  onClick={prevStep}
+                  variant="secondary"
+                  className="flex-1"
+                >
+                  Back
+                </Button>
+              ) : (
+                <div className="flex-1" />
+              )}
+
+              <Button
+                onClick={step === totalSteps ? handleSubmit : nextStep}
+                disabled={loading || !validateStep(step, formData)}
+                className="flex-1"
+                loading={loading && step === totalSteps}
+              >
+                {step === totalSteps ? "Find Schemes" : "Continue"}
+              </Button>
+            </div>
+          </Card>
+
         </div>
-      </div>
+      </PageContainer>
 
-      <div className="mt-4">
-        <ProgressBar current={step} total={totalSteps} />
-      </div>
-
-      <div className="mt-8">
-        {step === 1 && (
-          <BasicInfo
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
-
-        {step === 2 && (
-          <LocationInfo
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
-
-        {step === 3 && (
-          <OccupationInfo
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
-
-        {step === 4 && (
-          <EducationInfo
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
-
-        {step === 5 && (
-          <ContactInfo
-            formData={formData}
-            setFormData={setFormData}
-          />
-        )}
-
-        {step === 6 && (
-          <Review formData={formData} />
-        )}
-      </div>
-
-      <button
-        onClick={
-          step === totalSteps
-            ? handleSubmit
-            : nextStep
-        }
-        disabled={
-          loading ||
-          !validateStep(step, formData)
-        }
-        className={`mt-8 px-5 py-3 rounded-xl text-white transition ${
-          loading ||
-          !validateStep(step, formData)
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700"
-        }`}
-      >
-        {loading
-          ? "Finding Schemes..."
-          : step === totalSteps
-          ? "Submit"
-          : "Next"}
-      </button>
-    </div>
+      <Footer />
+      <BottomBar />
+    </main>
   );
 }

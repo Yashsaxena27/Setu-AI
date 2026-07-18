@@ -1,75 +1,43 @@
+import Input from "../../ui/Input";
+import Select from "../../ui/Select";
+
 interface Props {
   formData: any;
   setFormData: any;
 }
 
-export default function BasicInfo({
-  formData,
-  setFormData,
-}: Props) {
+export default function BasicInfo({ formData, setFormData }: Props) {
   return (
     <div className="space-y-5">
+      <Input
+        label="Full Name"
+        type="text"
+        placeholder="Enter your name"
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        required
+      />
 
-      <div>
-        <label className="font-medium">
-          Full Name
-        </label>
+      <Input
+        label="Age"
+        type="number"
+        placeholder="Enter your age"
+        value={formData.age}
+        onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+        required
+      />
 
-        <input
-          type="text"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              name: e.target.value,
-            })
-          }
-          className="w-full border rounded-xl p-3 mt-2"
-          placeholder="Enter your name"
-        />
-      </div>
-
-      <div>
-        <label className="font-medium">
-          Age
-        </label>
-
-        <input
-          type="number"
-          value={formData.age}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              age: e.target.value,
-            })
-          }
-          className="w-full border rounded-xl p-3 mt-2"
-          placeholder="Enter your age"
-        />
-      </div>
-
-      <div>
-        <label className="font-medium">
-          Gender
-        </label>
-
-        <select
-          value={formData.gender}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              gender: e.target.value,
-            })
-          }
-          className="w-full border rounded-xl p-3 mt-2"
-        >
-          <option value="">Select Gender</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-      </div>
-
+      <Select
+        label="Gender"
+        value={formData.gender}
+        onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+        required
+      >
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </Select>
     </div>
   );
 }

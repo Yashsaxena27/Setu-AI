@@ -1,15 +1,12 @@
+import Input from "../../ui/Input";
+
 type Props = {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 };
 
-export default function LocationInfo({
-  formData,
-  setFormData,
-}: Props) {
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+export default function LocationInfo({ formData, setFormData }: Props) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -18,37 +15,25 @@ export default function LocationInfo({
 
   return (
     <div className="space-y-5">
+      <Input
+        label="State"
+        type="text"
+        name="state"
+        placeholder="Enter your state (e.g. Uttar Pradesh)"
+        value={formData.state}
+        onChange={handleChange}
+        required
+      />
 
-      <div>
-        <label className="block mb-2 font-medium">
-          State
-        </label>
-
-        <input
-          type="text"
-          name="state"
-          value={formData.state}
-          onChange={handleChange}
-          placeholder="Enter your state"
-          className="w-full border rounded-xl p-3"
-        />
-      </div>
-
-      <div>
-        <label className="block mb-2 font-medium">
-          District
-        </label>
-
-        <input
-          type="text"
-          name="district"
-          value={formData.district}
-          onChange={handleChange}
-          placeholder="Enter your district"
-          className="w-full border rounded-xl p-3"
-        />
-      </div>
-
+      <Input
+        label="District"
+        type="text"
+        name="district"
+        placeholder="Enter your district (e.g. Lucknow)"
+        value={formData.district}
+        onChange={handleChange}
+        required
+      />
     </div>
   );
 }
