@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaArrowRight, FaExchangeAlt, FaArrowLeft } from "react-icons/fa";
 
@@ -29,8 +30,23 @@ export default function Results() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const matches: Scheme[] = location.state?.matches || [];
+  const [matches] = useState<Scheme[]>(() => {
+    if (location.state?.matches) {
+      localStorage.setItem("latestMatches", JSON.stringify(location.state.matches));
+      return location.state.matches;
+    }
+    const cached = localStorage.getItem("latestMatches");
+    return cached ? JSON.parse(cached) : [];
+  });
+  
   const [selectedSchemes, setSelectedSchemes] = useState<Scheme[]>([]);
+
+  useEffect(() => {
+    if (matches.length === 0) {
+      toast.error("Please complete the Profile Wizard to view matches.");
+      navigate("/profile", { replace: true });
+    }
+  }, [matches, navigate]);
 
   const getScoreVariant = (score: number) => {
     if (score >= 90) return "success";
@@ -181,14 +197,15 @@ export default function Results() {
                 Comparison Ready
               </span>
               <Button
-                onClick={() =>
+                onClick={() => {
+                  localStorage.setItem("comparedSchemes", JSON.stringify(selectedSchemes));
                   navigate("/compare", {
                     state: {
                       scheme1: selectedSchemes[0],
                       scheme2: selectedSchemes[1],
                     },
-                  })
-                }
+                  });
+                }}
                 size="sm"
                 variant="accent"
               >

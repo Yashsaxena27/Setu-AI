@@ -1,5 +1,6 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { getExplanation } from "../services/explain";
 import { FaArrowLeft, FaCheckCircle, FaInfoCircle, FaFileContract } from "react-icons/fa";
 
@@ -15,11 +16,22 @@ import SectionHeader from "../components/ui/SectionHeader";
 import Skeleton from "../components/ui/Skeleton";
 
 export default function SchemeDetail() {
-  useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const scheme = location.state;
+  const [scheme] = useState<any>(() => {
+    if (location.state) return location.state;
+    const latest = JSON.parse(localStorage.getItem("latestMatches") || "[]");
+    return latest.find((m: any) => m._id === id) || null;
+  });
+
+  useEffect(() => {
+    if (!scheme) {
+      toast.error("Scheme details not found. Returning to matches.");
+      navigate("/results", { replace: true });
+    }
+  }, [scheme, navigate]);
 
   const [activeTab, setActiveTab] = useState("overview");
   const [reasons, setReasons] = useState<string[]>([]);

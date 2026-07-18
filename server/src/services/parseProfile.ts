@@ -43,9 +43,28 @@ ${message}
   // Remove markdown code blocks if Gemini returns them
   text = text.replace(/```json/g, "").replace(/```/g, "").trim();
 
-  const profile = JSON.parse(text);
+  let profile: any = {};
+  try {
+    profile = JSON.parse(text);
+  } catch (err) {
+    console.error("Failed to parse Gemini profile JSON, attempting bracket cleanup:", err);
+    try {
+      const jsonStart = text.indexOf("{");
+      const jsonEnd = text.lastIndexOf("}");
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        profile = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+      }
+    } catch (innerErr) {
+      console.error("Failed to clean up and parse profile json:", innerErr);
+    }
+  }
 
-  profile.rawText = message;
-
-  return profile;
+  return {
+    age: profile.age != null ? Number(profile.age) : null,
+    state: profile.state || null,
+    occupation: profile.occupation || null,
+    annual_income: profile.annual_income != null ? Number(profile.annual_income) : null,
+    education: profile.education || null,
+    rawText: message,
+  };
 }

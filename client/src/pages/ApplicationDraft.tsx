@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { generateDraft } from "../services/draft";
 import ReactMarkdown from "react-markdown";
@@ -28,10 +28,23 @@ import jsPDF from "jspdf";
 const GENERATING_TEXT = "Analyzing parameters & compiling official draft welfare letter...";
 
 export default function ApplicationDraft() {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const scheme = location.state;
   const pdfRef = useRef<HTMLDivElement>(null);
+
+  const [scheme] = useState<any>(() => {
+    if (location.state) return location.state;
+    const latest = JSON.parse(localStorage.getItem("latestMatches") || "[]");
+    return latest.find((m: any) => m._id === id) || null;
+  });
+
+  useEffect(() => {
+    if (!scheme) {
+      toast.error("Scheme details not found. Returning to matches.");
+      navigate("/results", { replace: true });
+    }
+  }, [scheme, navigate]);
 
   const [draft, setDraft] = useState(GENERATING_TEXT);
   const [isGenerating, setIsGenerating] = useState(true);

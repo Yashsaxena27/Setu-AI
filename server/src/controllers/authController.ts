@@ -73,10 +73,13 @@ export const login = async (req: Request, res: Response) => {
 
     const token = generateToken(user._id.toString());
 
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
     res.json({
       message: "Login Successful",
       token,
-      user,
+      user: userResponse,
     });
 
   } catch (err) {

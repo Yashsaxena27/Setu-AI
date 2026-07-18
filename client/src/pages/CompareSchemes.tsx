@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { FaArrowLeft, FaCheck, FaLock } from "react-icons/fa";
 
 import Header from "../components/layout/Header";
@@ -13,7 +15,24 @@ export default function CompareSchemes() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { scheme1, scheme2 } = location.state || {};
+  const [scheme1] = useState<any>(() => {
+    if (location.state?.scheme1) return location.state.scheme1;
+    const stored = JSON.parse(localStorage.getItem("comparedSchemes") || "[]");
+    return stored[0] || null;
+  });
+
+  const [scheme2] = useState<any>(() => {
+    if (location.state?.scheme2) return location.state.scheme2;
+    const stored = JSON.parse(localStorage.getItem("comparedSchemes") || "[]");
+    return stored[1] || null;
+  });
+
+  useEffect(() => {
+    if (!scheme1 || !scheme2) {
+      toast.error("Compare selection lost. Please re-select schemes to compare.");
+      navigate("/results", { replace: true });
+    }
+  }, [scheme1, scheme2, navigate]);
 
   if (!scheme1 || !scheme2) {
     return (
