@@ -14,6 +14,7 @@ import reminderRoutes from "./routes/reminders";
 import vectorRoutes from "./routes/vectorRoutes";
 import explainRoutes from "./routes/explain";
 import whatsappRoutes from "./routes/whatsapp";
+import simulatorRoutes from "./routes/simulator";
 
 dotenv.config();
 
@@ -47,5 +48,5 @@ app.use("/health", healthRoutes);
 app.use("/vector-search", vectorRoutes);
 app.use("/explain", explainRoutes);
 app.use("/whatsapp", whatsappRoutes);
-
+app.use("/api/simulator", simulatorRoutes);
 export default app;

@@ -71,6 +71,21 @@ export default function ApplicationDraft() {
         setRequiredDocuments(
           scheme.required_documents || []
         );
+        const drafts = JSON.parse(
+  localStorage.getItem("generatedDrafts") || "[]"
+);
+
+drafts.push({
+  id: scheme._id,
+  name: scheme.scheme_name,
+  generatedAt: new Date().toISOString(),
+});
+
+localStorage.setItem(
+  "generatedDrafts",
+  JSON.stringify(drafts)
+);
+
       } catch (err) {
         console.error(err);
 

@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
@@ -12,6 +12,9 @@ export default function Results() {
   const location = useLocation();
 
   const matches = location.state?.matches || [];
+
+  const [selectedSchemes, setSelectedSchemes] = useState<any[]>([]);
+
   const getColor = (score: number) => {
     if (score >= 90) return "bg-green-100 text-green-700";
     if (score >= 75) return "bg-yellow-100 text-yellow-700";
@@ -72,6 +75,33 @@ export default function Results() {
                 </p>
               </div>
 
+              <label className="flex items-center gap-2 mt-5 mb-4">
+                <input
+                  type="checkbox"
+                  checked={selectedSchemes.some(
+                    (s) => s._id === scheme._id
+                  )}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      if (selectedSchemes.length < 2) {
+                        setSelectedSchemes([
+                          ...selectedSchemes,
+                          scheme,
+                        ]);
+                      }
+                    } else {
+                      setSelectedSchemes(
+                        selectedSchemes.filter(
+                          (s) => s._id !== scheme._id
+                        )
+                      );
+                    }
+                  }}
+                />
+
+                Compare
+              </label>
+
               <div className="flex gap-4 mt-6">
                 <Button
                   onClick={() =>
@@ -99,6 +129,23 @@ export default function Results() {
             </div>
           ))}
         </div>
+
+        {selectedSchemes.length === 2 && (
+          <div className="sticky bottom-5 flex justify-center mt-8">
+            <Button
+              onClick={() =>
+                navigate("/compare", {
+                  state: {
+                    scheme1: selectedSchemes[0],
+                    scheme2: selectedSchemes[1],
+                  },
+                })
+              }
+            >
+              Compare Selected Schemes
+            </Button>
+          </div>
+        )}
       </PageContainer>
 
       <BottomBar />

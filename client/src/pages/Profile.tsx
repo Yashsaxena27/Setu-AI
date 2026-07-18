@@ -146,11 +146,7 @@ navigate("/results", {
   },
 });
 
-      navigate("/results", {
-        state: {
-          matches: result.matches,
-        },
-      });
+      
     } catch (error) {
       console.error(error);
       alert(
