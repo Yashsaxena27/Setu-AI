@@ -1,13 +1,12 @@
+import Input from "../../ui/Input";
+import Select from "../../ui/Select";
+
 type Props = {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 };
 
-export default function ContactInfo({
-  formData,
-  setFormData,
-}: Props) {
-
+export default function ContactInfo({ formData, setFormData }: Props) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -19,40 +18,29 @@ export default function ContactInfo({
 
   return (
     <div className="space-y-5">
+      <Select
+        label="Preferred Communication Language"
+        name="language"
+        value={formData.language}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select Language</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Hinglish">Hinglish</option>
+      </Select>
 
-      <div>
-        <label className="block mb-2 font-medium">
-          Preferred Language
-        </label>
-
-        <select
-          name="language"
-          value={formData.language}
-          onChange={handleChange}
-          className="w-full border rounded-xl p-3"
-        >
-          <option value="">Select</option>
-          <option>English</option>
-          <option>Hindi</option>
-          <option>Hinglish</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block mb-2 font-medium">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="9876543210"
-          className="w-full border rounded-xl p-3"
-        />
-      </div>
-
+      <Input
+        label="Phone Number"
+        type="tel"
+        name="phone"
+        placeholder="10-digit mobile number"
+        value={formData.phone}
+        onChange={handleChange}
+        maxLength={10}
+        required
+      />
     </div>
   );
 }

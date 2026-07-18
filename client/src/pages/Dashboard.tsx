@@ -1,14 +1,37 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { FaUserEdit, FaSearch, FaSlidersH, FaFileAlt } from "react-icons/fa";
 
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
-import Button from "../components/common/Button";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import Badge from "../components/ui/Badge";
+import StatCard from "../components/ui/StatCard";
+import SectionHeader from "../components/ui/SectionHeader";
+import Timeline from "../components/ui/Timeline";
+import EmptyState from "../components/ui/EmptyState";
+
+interface DraftItem {
+  id: string;
+  name: string;
+  generatedAt: string;
+}
+
+interface MatchItem {
+  _id: string;
+  scheme_name: string;
+  score: number;
+  category: string;
+  summary?: string;
+}
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [stats, setStats] = useState({
     matched: 0,
@@ -17,152 +40,248 @@ export default function Dashboard() {
     profileUpdated: "Today",
   });
 
+  const [recentDrafts, setRecentDrafts] = useState<DraftItem[]>([]);
+  const [recentMatches, setRecentMatches] = useState<MatchItem[]>([]);
+
   useEffect(() => {
-    const matches =
-      JSON.parse(localStorage.getItem("latestMatches") || "[]");
+    const matches: MatchItem[] = JSON.parse(
+      localStorage.getItem("latestMatches") || "[]"
+    );
+    setRecentMatches(matches.slice(0, 3)); // show top 3
 
     const simulations = Number(
       localStorage.getItem("simulationCount") ?? "0"
     );
 
-    const drafts = JSON.parse(
+    const drafts: DraftItem[] = JSON.parse(
       localStorage.getItem("generatedDrafts") || "[]"
-    ).length;
+    );
+    setRecentDrafts(drafts.slice(-3).reverse()); // show latest 3
 
     setStats({
       matched: matches.length,
       simulations,
-      drafts,
+      drafts: drafts.length,
       profileUpdated: new Date().toLocaleDateString(),
     });
   }, []);
 
+  const activityItems = [
+    { title: "Profile Checked", description: "Your eligibility data is up to date.", date: "Today", completed: true },
+    { title: "AI RAG Matcher Ready", description: "Matched against current federal guidelines.", date: "Latest", completed: true },
+    { title: "Drafting Templates Updated", description: "Vetted application formats synced.", date: "Available", completed: true },
+    { title: "Eligibility Simulator Live", description: "Test hypothetical updates securely.", date: "Live", completed: true },
+  ];
+
+  const sidebarLinks = [
+    { label: "Overview", active: true, onClick: () => navigate("/dashboard") },
+    { label: "Profile Wizard", active: false, onClick: () => navigate("/profile") },
+    { label: "Matches Results", active: false, onClick: () => navigate("/results") },
+    { label: "Simulator Panel", active: false, onClick: () => navigate("/simulator") },
+    { label: "Account Settings", active: false, onClick: () => navigate("/settings") },
+  ];
+
   return (
-    <>
+    <main className="min-h-screen bg-[#FAF8F3] font-sans pb-16 md:pb-0">
       <Header />
 
       <PageContainer>
-
-        <h1 className="text-3xl font-bold mb-8">
-          Dashboard
-        </h1>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-          <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500">
-              Matched Schemes
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              {stats.matched}
-            </h2>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+          
+          {/* Sidebar - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-3 space-y-2 sticky top-24">
+            <Card className="p-4 border border-[#0F172A]/5">
+              <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Navigation
+              </p>
+              <div className="space-y-1">
+                {sidebarLinks.map((link, idx) => (
+                  <button
+                    key={idx}
+                    onClick={link.onClick}
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition duration-150 cursor-pointer ${
+                      link.active
+                        ? "bg-[#0F172A] text-white"
+                        : "text-slate-500 hover:bg-[#0F172A]/5 hover:text-[#0F172A]"
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </Card>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500">
-              Simulations
-            </p>
+          {/* Main Dashboard Space */}
+          <div className="lg:col-span-9 space-y-8">
+            
+            {/* Welcome Banner */}
+            <div className="space-y-2">
+              <h1 className="font-serif text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl">
+                Welcome back, {user?.name || "Citizen"}
+              </h1>
+              <p className="text-slate-500 text-sm font-medium">
+                Here is a summary of your eligibility matches and application files.
+              </p>
+            </div>
 
-            <h2 className="text-4xl font-bold mt-2">
-              {stats.simulations}
-            </h2>
+            {/* Quick Stats Grid */}
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <StatCard
+                title="Matched Schemes"
+                value={stats.matched}
+                description="Active qualifications"
+              />
+              <StatCard
+                title="Simulations Run"
+                value={stats.simulations}
+                description="Hypothetical logs"
+              />
+              <StatCard
+                title="Drafts Prepped"
+                value={stats.drafts}
+                description="Saved copy logs"
+              />
+              <StatCard
+                title="Profile Status"
+                value="Verified"
+                description={`Synced ${stats.profileUpdated}`}
+              />
+            </div>
+
+            {/* Content Row: Left Activities, Right Actions */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              
+              {/* Activity Timeline */}
+              <Card className="border border-[#0F172A]/5">
+                <SectionHeader title="Recent Milestones" />
+                <div className="pt-2">
+                  <Timeline items={activityItems} />
+                </div>
+              </Card>
+
+              {/* Quick Actions Panel */}
+              <Card className="border border-[#0F172A]/5 flex flex-col justify-between">
+                <div>
+                  <SectionHeader title="Quick Actions" />
+                  <p className="text-sm text-slate-500 font-medium mb-6">
+                    Manage your profile parameters, compare verified schemes, or test eligibility thresholds.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <Button
+                    onClick={() => navigate("/profile")}
+                    className="w-full justify-between"
+                  >
+                    <span>Update Citizen Profile</span>
+                    <FaUserEdit />
+                  </Button>
+                  <Button
+                    onClick={() => navigate("/results")}
+                    variant="secondary"
+                    className="w-full justify-between"
+                  >
+                    <span>View Matched Schemes</span>
+                    <FaSearch />
+                  </Button>
+                  <Button
+                    onClick={() => navigate("/simulator")}
+                    variant="secondary"
+                    className="w-full justify-between"
+                  >
+                    <span>Eligibility Simulator</span>
+                    <FaSlidersH />
+                  </Button>
+                </div>
+              </Card>
+            </div>
+
+            {/* Recent Matches Section */}
+            <div className="space-y-4">
+              <SectionHeader title="Top Matching Schemes" />
+              {recentMatches.length === 0 ? (
+                <EmptyState
+                  title="No Matches Found"
+                  description="Complete the Profile Wizard to let Setu AI match you with qualified schemes."
+                  action={
+                    <Button onClick={() => navigate("/profile")}>
+                      Start Profile Wizard
+                    </Button>
+                  }
+                />
+              ) : (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {recentMatches.map((scheme) => (
+                    <Card
+                      key={scheme._id}
+                      hoverable
+                      onClick={() => navigate("/results")}
+                      className="flex flex-col justify-between border border-[#0F172A]/5 p-5"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {scheme.category}
+                          </span>
+                          <span className="text-xs font-bold text-[#22C55E]">
+                            {scheme.score}% Match
+                          </span>
+                        </div>
+                        <h4 className="font-serif text-lg font-bold text-[#0F172A] line-clamp-1">
+                          {scheme.scheme_name}
+                        </h4>
+                        <p className="text-xs text-slate-500 line-clamp-2">
+                          {scheme.summary || "View full criteria verification explanations."}
+                        </p>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Recent Drafts Section */}
+            <div className="space-y-4">
+              <SectionHeader title="Application Draft Revisions" />
+              {recentDrafts.length === 0 ? (
+                <EmptyState
+                  title="No Generated Drafts"
+                  description="Drafts will appear here after matching and selecting 'Generate Draft'."
+                  icon={<FaFileAlt className="h-8 w-8" />}
+                />
+              ) : (
+                <div className="space-y-3">
+                  {recentDrafts.map((draft, idx) => (
+                    <Card
+                      key={idx}
+                      hoverable
+                      onClick={() => navigate(`/results`)}
+                      className="flex items-center justify-between border border-[#0F172A]/5 py-4 px-6"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FaFileAlt className="text-[#14B8A6] h-5 w-5" />
+                        <div>
+                          <p className="font-sans text-sm font-bold text-[#0F172A]">
+                            {draft.name}
+                          </p>
+                          <p className="text-[10px] text-slate-400 font-medium">
+                            Revision prepped on {new Date(draft.generatedAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge variant="accent">Draft Saved</Badge>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </div>
-
-          <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500">
-              Drafts
-            </p>
-
-            <h2 className="text-4xl font-bold mt-2">
-              {stats.drafts}
-            </h2>
-          </div>
-
-          <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500">
-              Last Updated
-            </p>
-
-            <h2 className="text-xl font-bold mt-2">
-              {stats.profileUpdated}
-            </h2>
-          </div>
-
         </div>
-
-        <div className="bg-white rounded-xl shadow p-6 mt-10">
-
-          <h2 className="text-2xl font-bold mb-5">
-            Recent Activity
-          </h2>
-
-          <div className="space-y-4">
-
-            <div className="flex justify-between">
-              <span>✅ Profile Updated</span>
-
-              <span className="text-gray-400">
-                Today
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>🤖 AI Matching Completed</span>
-
-              <span className="text-gray-400">
-                Latest
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>📝 Draft Generator Ready</span>
-
-              <span className="text-gray-400">
-                Available
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>🧠 Eligibility Simulator Used</span>
-
-              <span className="text-gray-400">
-                Live
-              </span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-4 mt-10">
-
-          <Button
-            onClick={() => navigate("/profile")}
-          >
-            Edit Profile
-          </Button>
-
-          <Button
-            variant="secondary"
-            onClick={() => navigate("/results")}
-          >
-            View Matches
-          </Button>
-
-          <Button
-            variant="secondary"
-            onClick={() => navigate("/simulator")}
-          >
-            Eligibility Simulator
-          </Button>
-
-        </div>
-
       </PageContainer>
 
-      <BottomBar />
       <Footer />
-    </>
+      <BottomBar />
+    </main>
   );
 }

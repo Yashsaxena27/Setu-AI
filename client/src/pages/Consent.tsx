@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaShieldAlt, FaArrowLeft, FaCheck } from "react-icons/fa";
+
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import Badge from "../components/ui/Badge";
 
 export default function Consent() {
   const [agreed, setAgreed] = useState(false);
@@ -11,87 +16,87 @@ export default function Consent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-lg p-6">
-
+    <div className="min-h-screen flex items-center justify-center bg-[#FAF8F3] px-4 font-sans">
+      <div className="w-full max-w-md space-y-8">
+        
+        {/* Back navigation */}
         <button
           onClick={() => navigate("/")}
-          className="mb-4 flex items-center gap-2 text-slate-600 hover:text-blue-600"
+          className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-[#0F172A] transition duration-150 cursor-pointer"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={18}
-            height={18}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          Back
+          <FaArrowLeft /> Back to Home
         </button>
 
-        <h1 className="text-3xl font-bold text-slate-900">
-          Your Privacy Matters
-        </h1>
+        <Card className="border border-[#0F172A]/5 p-8 shadow-premium space-y-6">
+          
+          {/* Header */}
+          <div className="space-y-2">
+            <Badge variant="accent">Security Verification</Badge>
+            <h1 className="font-serif text-3xl font-extrabold tracking-tight text-[#0F172A]">
+              Your Privacy Matters
+            </h1>
+            <p className="text-slate-500 text-sm font-medium leading-relaxed">
+              We securely parse your profile credentials solely to match you with eligible government welfare benefits.
+            </p>
+          </div>
 
-        <p className="mt-4 text-slate-600 leading-7 text-base">
-          We only use your information to match you with government welfare
-          schemes you may be eligible for.
-        </p>
+          {/* Consent Guidelines */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 text-xs font-semibold text-slate-500 leading-normal">
+              <span className="h-5 w-5 rounded-full bg-[#14B8A6]/10 text-[#14B8A6] flex items-center justify-center shrink-0">
+                <FaCheck className="h-2.5 w-2.5" />
+              </span>
+              <p>We only request parameters mandated by central or state qualification criteria.</p>
+            </div>
+            <div className="flex items-start gap-3 text-xs font-semibold text-slate-500 leading-normal">
+              <span className="h-5 w-5 rounded-full bg-[#14B8A6]/10 text-[#14B8A6] flex items-center justify-center shrink-0">
+                <FaCheck className="h-2.5 w-2.5" />
+              </span>
+              <p>Your details are never sold, rented, or distributed to third-party providers.</p>
+            </div>
+          </div>
 
-        <p className="mt-2 text-slate-600 leading-7 text-base">
-          Your data will never be shared without your permission and you can
-          delete it anytime.
-        </p>
+          {/* Security alert box */}
+          <div className="rounded-xl bg-[#14B8A6]/5 border border-[#14B8A6]/10 p-4 flex gap-3">
+            <FaShieldAlt className="text-[#14B8A6] shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#0D9488]">
+                Citizen Consent Guarantee
+              </h4>
+              <p className="text-[10px] text-slate-500 font-semibold leading-normal">
+                You maintain complete control. Profile settings permit permanent account or match history deletion at any point.
+              </p>
+            </div>
+          </div>
 
-        <div className="mt-8 flex items-start gap-3">
-          <input
-            id="consent"
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-            aria-label="Consent Checkbox"
-            className="mt-1 h-5 w-5"
-          />
-          <label
-            htmlFor="consent"
-            className="text-slate-700 leading-6 cursor-pointer"
+          {/* Checkbox input container */}
+          <div className="flex items-start gap-3 pt-2">
+            <input
+              id="consent"
+              type="checkbox"
+              checked={agreed}
+              onChange={(e) => setAgreed(e.target.checked)}
+              aria-label="Consent Checkbox"
+              className="mt-0.5 h-4 w-4 rounded-sm border-[#0F172A]/10 text-[#14B8A6] focus:ring-[#14B8A6]/20 cursor-pointer"
+            />
+            <label
+              htmlFor="consent"
+              className="text-xs font-bold text-slate-600 leading-normal cursor-pointer select-none"
+            >
+              I authorize Setu AI to evaluate my profile information against government eligibility rules.
+            </label>
+          </div>
+
+          {/* Continue button */}
+          <Button
+            onClick={handleContinue}
+            disabled={!agreed}
+            className="w-full mt-2"
           >
-            I agree to let Setu AI securely use my information only for
-            government scheme matching.
-          </label>
-        </div>
+            Continue to Profile Wizard
+          </Button>
 
-        <div className="mt-6 rounded-xl bg-blue-50 border border-blue-100 p-4">
-          <h3 className="font-semibold text-blue-700">
-            Your Data is Safe
-          </h3>
-
-          <p className="text-sm text-slate-600 mt-2">
-            We only collect information required for government scheme matching.
-            You can request deletion of your data at any time.
-          </p>
-        </div>
-
-        <button
-          onClick={handleContinue}
-          disabled={!agreed}
-          aria-label="Continue"
-          className={`mt-8 w-full rounded-xl py-3 font-semibold transition
-          ${
-            agreed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          Continue to Profile →
-        </button>
-
+        </Card>
       </div>
     </div>
   );
