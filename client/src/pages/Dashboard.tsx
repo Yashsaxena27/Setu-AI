@@ -14,6 +14,7 @@ import StatCard from "../components/ui/StatCard";
 import SectionHeader from "../components/ui/SectionHeader";
 import Timeline from "../components/ui/Timeline";
 import EmptyState from "../components/ui/EmptyState";
+import Reveal from "../components/effects/Reveal";
 
 interface DraftItem {
   id: string;
@@ -127,26 +128,34 @@ export default function Dashboard() {
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              <StatCard
-                title="Matched Schemes"
-                value={stats.matched}
-                description="Active qualifications"
-              />
-              <StatCard
-                title="Simulations Run"
-                value={stats.simulations}
-                description="Hypothetical logs"
-              />
-              <StatCard
-                title="Drafts Prepped"
-                value={stats.drafts}
-                description="Saved copy logs"
-              />
-              <StatCard
-                title="Profile Status"
-                value="Verified"
-                description={`Synced ${stats.profileUpdated}`}
-              />
+              <Reveal index={0}>
+                <StatCard
+                  title="Matched Schemes"
+                  value={stats.matched}
+                  description="Active qualifications"
+                />
+              </Reveal>
+              <Reveal index={1}>
+                <StatCard
+                  title="Simulations Run"
+                  value={stats.simulations}
+                  description="Hypothetical logs"
+                />
+              </Reveal>
+              <Reveal index={2}>
+                <StatCard
+                  title="Drafts Prepped"
+                  value={stats.drafts}
+                  description="Saved copy logs"
+                />
+              </Reveal>
+              <Reveal index={3}>
+                <StatCard
+                  title="Profile Status"
+                  value="Verified"
+                  description={`Synced ${stats.profileUpdated}`}
+                />
+              </Reveal>
             </div>
 
             {/* Content Row: Left Activities, Right Actions */}

@@ -16,6 +16,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import SectionHeader from "../components/ui/SectionHeader";
 import EmptyState from "../components/ui/EmptyState";
+import Reveal from "../components/effects/Reveal";
 
 export default function EligibilitySimulator() {
   const navigate = useNavigate();
@@ -136,8 +137,9 @@ export default function EligibilitySimulator() {
             
             {/* Left: Input Sandbox Controls */}
             <div className="lg:col-span-5 space-y-6">
-              <Card className="border border-[#0F172A]/5 p-6 shadow-premium space-y-6">
-                <SectionHeader title="Simulation Controls" />
+              <Reveal direction="right">
+                <Card className="border border-[#0F172A]/5 p-6 shadow-premium space-y-6">
+                  <SectionHeader title="Simulation Controls" />
 
                 <div className="space-y-4">
                   <Input
@@ -230,7 +232,8 @@ export default function EligibilitySimulator() {
                 </div>
 
               </Card>
-            </div>
+            </Reveal>
+          </div>
 
             {/* Right: Simulation Outputs comparison */}
             <div className="lg:col-span-7 space-y-6">

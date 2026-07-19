@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { saveProfile, getProfile } from "../services/profileApi";
 import { getMatches } from "../services/match";
@@ -220,24 +221,34 @@ export default function Profile() {
             </div>
 
             <div className="py-4">
-              {step === 1 && (
-                <BasicInfo formData={formData} setFormData={setFormData} />
-              )}
-              {step === 2 && (
-                <LocationInfo formData={formData} setFormData={setFormData} />
-              )}
-              {step === 3 && (
-                <OccupationInfo formData={formData} setFormData={setFormData} />
-              )}
-              {step === 4 && (
-                <EducationInfo formData={formData} setFormData={setFormData} />
-              )}
-              {step === 5 && (
-                <ContactInfo formData={formData} setFormData={setFormData} />
-              )}
-              {step === 6 && (
-                <Review formData={formData} />
-              )}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={step}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                >
+                  {step === 1 && (
+                    <BasicInfo formData={formData} setFormData={setFormData} />
+                  )}
+                  {step === 2 && (
+                    <LocationInfo formData={formData} setFormData={setFormData} />
+                  )}
+                  {step === 3 && (
+                    <OccupationInfo formData={formData} setFormData={setFormData} />
+                  )}
+                  {step === 4 && (
+                    <EducationInfo formData={formData} setFormData={setFormData} />
+                  )}
+                  {step === 5 && (
+                    <ContactInfo formData={formData} setFormData={setFormData} />
+                  )}
+                  {step === 6 && (
+                    <Review formData={formData} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <div className="flex justify-between gap-4 border-t border-slate-100 pt-6">

@@ -20,6 +20,7 @@ import Badge from "../components/ui/Badge";
 import Input from "../components/ui/Input";
 import SectionHeader from "../components/ui/SectionHeader";
 import EmptyState from "../components/ui/EmptyState";
+import Reveal from "../components/effects/Reveal";
 
 export default function Reminders() {
   const navigate = useNavigate();
@@ -117,32 +118,34 @@ export default function Reminders() {
           </div>
 
           {/* Add Reminder Card */}
-          <Card className="border border-[#0F172A]/5 p-6 shadow-premium space-y-4">
-            <span className="block text-xs font-bold uppercase tracking-wider text-slate-400">
-              ➕ Add Submission Deadline
-            </span>
-            
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Input
-                placeholder="Scheme Name (e.g. PM-KISAN)"
-                value={schemeName}
-                onChange={(e) => setSchemeName(e.target.value)}
-              />
-              <Input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
+          <Reveal direction="up">
+            <Card className="border border-[#0F172A]/5 p-6 shadow-premium space-y-4">
+              <span className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+                ➕ Add Submission Deadline
+              </span>
+              
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Input
+                  placeholder="Scheme Name (e.g. PM-KISAN)"
+                  value={schemeName}
+                  onChange={(e) => setSchemeName(e.target.value)}
+                />
+                <Input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </div>
 
-            <Button
-              onClick={handleAdd}
-              loading={loading}
-              className="w-full"
-            >
-              <FaCalendarPlus className="mr-2" /> Add Reminder
-            </Button>
-          </Card>
+              <Button
+                onClick={handleAdd}
+                loading={loading}
+                className="w-full"
+              >
+                <FaCalendarPlus className="mr-2" /> Add Reminder
+              </Button>
+            </Card>
+          </Reveal>
 
           {/* Reminders List */}
           <div className="space-y-4">

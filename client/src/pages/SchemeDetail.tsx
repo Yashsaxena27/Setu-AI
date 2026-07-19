@@ -14,6 +14,7 @@ import Badge from "../components/ui/Badge";
 import Tabs from "../components/ui/Tabs";
 import SectionHeader from "../components/ui/SectionHeader";
 import Skeleton from "../components/ui/Skeleton";
+import Reveal from "../components/effects/Reveal";
 
 export default function SchemeDetail() {
   const { id } = useParams<{ id: string }>();
@@ -116,23 +117,25 @@ export default function SchemeDetail() {
           </Button>
 
           {/* Scheme Main Info Header */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2 items-center">
-              <Badge variant="accent">{scheme.category || "Welfare"}</Badge>
-              {scheme.level && <Badge variant="info">{scheme.level}</Badge>}
+          <Reveal direction="up">
+            <div className="space-y-4">
+              <div className="flex flex-wrap gap-2 items-center">
+                <Badge variant="accent">{scheme.category || "Welfare"}</Badge>
+                {scheme.level && <Badge variant="info">{scheme.level}</Badge>}
+              </div>
+              <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0F172A] leading-tight">
+                {scheme.scheme_name}
+              </h1>
+              <div className="flex items-center gap-4 bg-white px-5 py-3.5 rounded-2xl border border-[#0F172A]/5 shadow-soft w-fit">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  AI Match Score
+                </span>
+                <span className="text-2xl font-serif font-black text-[#22C55E]">
+                  {scheme.score}%
+                </span>
+              </div>
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0F172A] leading-tight">
-              {scheme.scheme_name}
-            </h1>
-            <div className="flex items-center gap-4 bg-white px-5 py-3.5 rounded-2xl border border-[#0F172A]/5 shadow-soft w-fit">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                AI Match Score
-              </span>
-              <span className="text-2xl font-serif font-black text-[#22C55E]">
-                {scheme.score}%
-              </span>
-            </div>
-          </div>
+          </Reveal>
 
           {/* Tabs Selector */}
           <Tabs

@@ -12,7 +12,7 @@ export default function Skeleton({ className = "", variant = "rectangular" }: Sk
 
   return (
     <div
-      className={`animate-pulse bg-[#0F172A]/5 ${shapeClass} ${className}`}
+      className={`animate-pulse bg-[#0F172A]/5 transition-opacity duration-200 ${shapeClass} ${className}`}
     />
   );
 }

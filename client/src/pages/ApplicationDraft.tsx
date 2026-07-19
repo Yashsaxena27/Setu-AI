@@ -10,6 +10,7 @@ import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import Skeleton from "../components/ui/Skeleton";
+import Reveal from "../components/effects/Reveal";
 
 import {
   FaFileAlt,
@@ -204,18 +205,20 @@ ${scheme?.official_link || "Not available"}
           </Button>
 
           {/* Heading Info */}
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2 items-center">
-              <Badge variant="accent">AI Application Editor</Badge>
-              <Badge variant="info">{scheme.category}</Badge>
+          <Reveal direction="down">
+            <div className="space-y-4">
+              <div className="flex flex-wrap gap-2 items-center">
+                <Badge variant="accent">AI Application Editor</Badge>
+                <Badge variant="info">{scheme.category}</Badge>
+              </div>
+              <h1 className="font-serif text-3xl font-extrabold tracking-tight text-[#0F172A]">
+                Application Draft
+              </h1>
+              <p className="text-slate-500 text-sm font-medium">
+                Review your customized draft letter. Export to PDF to attach to your official portal submission.
+              </p>
             </div>
-            <h1 className="font-serif text-3xl font-extrabold tracking-tight text-[#0F172A]">
-              Application Draft
-            </h1>
-            <p className="text-slate-500 text-sm font-medium">
-              Review your customized draft letter. Export to PDF to attach to your official portal submission.
-            </p>
-          </div>
+          </Reveal>
 
           {/* Docs style Sheet */}
           <div
@@ -263,28 +266,30 @@ ${scheme?.official_link || "Not available"}
           </div>
 
           {/* Required Documents List */}
-          <div className="space-y-4">
-            <h3 className="font-serif text-xl font-bold text-[#0F172A]">
-              Documents checklist
-            </h3>
-            {isGenerating ? (
-              <Skeleton className="h-16 w-full" />
-            ) : requiredDocuments.length === 0 ? (
-              <p className="text-sm text-slate-400 font-semibold">No mandatory documents listed for this draft.</p>
-            ) : (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {requiredDocuments.map((doc, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 bg-white px-5 py-4 border border-[#0F172A]/5 rounded-xl shadow-soft"
-                  >
-                    <FaCheckCircle className="text-[#22C55E] shrink-0" />
-                    <span className="text-xs font-semibold text-[#0F172A]">{doc}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <Reveal direction="up">
+            <div className="space-y-4">
+              <h3 className="font-serif text-xl font-bold text-[#0F172A]">
+                Documents checklist
+              </h3>
+              {isGenerating ? (
+                <Skeleton className="h-16 w-full" />
+              ) : requiredDocuments.length === 0 ? (
+                <p className="text-sm text-slate-400 font-semibold">No mandatory documents listed for this draft.</p>
+              ) : (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {requiredDocuments.map((doc, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 bg-[#FAF8F3] px-5 py-4 border border-[#0F172A]/5 rounded-xl shadow-soft"
+                    >
+                      <FaCheckCircle className="text-[#22C55E] shrink-0" />
+                      <span className="text-xs font-semibold text-[#0F172A]">{doc}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </Reveal>
 
         </div>
       </PageContainer>

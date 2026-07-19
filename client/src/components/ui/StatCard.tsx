@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Card from "./Card";
+import AnimatedCounter from "../effects/AnimatedCounter";
 
 interface StatCardProps {
   title: string;
@@ -29,7 +30,7 @@ export default function StatCard({
       </div>
       <div className="mt-4">
         <h3 className="text-4xl font-bold font-serif text-[#0F172A] tracking-tight">
-          {value}
+          <AnimatedCounter value={value} />
         </h3>
         {(description || trend) && (
           <div className="mt-2 flex items-center gap-2 text-xs font-semibold">

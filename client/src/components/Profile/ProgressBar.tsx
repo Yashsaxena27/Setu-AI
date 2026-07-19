@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 interface Props {
   current: number;
   total: number;
@@ -8,9 +10,11 @@ export default function ProgressBar({ current, total }: Props) {
 
   return (
     <div className="w-full bg-[#0F172A]/5 rounded-full h-2 overflow-hidden shadow-inner">
-      <div
-        className="h-full bg-[#14B8A6] rounded-full transition-all duration-500 ease-out"
-        style={{ width: `${percentage}%` }}
+      <motion.div
+        className="h-full bg-[#14B8A6] rounded-full"
+        initial={{ width: 0 }}
+        animate={{ width: `${percentage}%` }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       />
     </div>
   );

@@ -4,6 +4,9 @@
 @theme {
   --color-primary: #0F172A;
   --color-accent: #14B8A6;
+  --color-accent-deep: #0D9488;
+  --color-accent-soft: #E4F5F3;
+  --color-amber-soft: #FDF0DA;
   --color-success: #22C55E;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
@@ -14,6 +17,9 @@
 
   --radius-xl: 18px;
   --radius-2xl: 24px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Custom global rules */
@@ -22,6 +28,39 @@ body {
   color: #0F172A;
   font-family: "Inter", "Manrope", sans-serif;
   margin: 0;
+}
+
+/* Selection highlighting */
+::selection {
+  background-color: #14B8A6;
+  color: #ffffff;
+}
+
+/* Global focus-visible accessibility rings */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #14B8A6 !important;
+  outline-offset: 2px !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F3;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #14B8A6;
 }
 
 /* Hide scrollbars but keep functional */
@@ -42,4 +81,61 @@ body {
 }
 .shadow-hover {
   box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+}
+
+/* Utility classes from design system brief */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.025;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.highlight-underline {
+  position: relative;
+  display: inline-block;
+  font-style: italic;
+  z-index: 1;
+}
+.highlight-underline::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: 1px;
+  height: 35%;
+  background-color: #FDF0DA;
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.text-gradient {
+  background: linear-gradient(120deg, #14B8A6, #F59E0B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Reduced motion accessibility fallback */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain-overlay {
+    display: none !important;
+  }
 }
