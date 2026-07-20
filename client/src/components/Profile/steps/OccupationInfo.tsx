@@ -1,27 +1,48 @@
 import Input from "../../ui/Input";
+import SearchableSelect from "../../ui/SearchableSelect";
 
 type Props = {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 };
 
+const OCCUPATION_OPTIONS = [
+  "Student",
+  "Farmer",
+  "Homemaker",
+  "Unemployed",
+  "Private Employee",
+  "Government Employee",
+  "Business",
+  "Self Employed",
+  "Labour",
+  "Retired",
+  "Other",
+];
+
 export default function OccupationInfo({ formData, setFormData }: Props) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOccupationChange = (value: string) => {
     setFormData((prev: any) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      occupation: value,
+    }));
+  };
+
+  const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      income: e.target.value,
     }));
   };
 
   return (
     <div className="space-y-5">
-      <Input
+      <SearchableSelect
         label="Occupation"
-        type="text"
-        name="occupation"
-        placeholder="Student / Farmer / Homemaker / Unemployed"
-        value={formData.occupation}
-        onChange={handleChange}
+        options={OCCUPATION_OPTIONS}
+        value={formData.occupation || ""}
+        onChange={handleOccupationChange}
+        placeholder="Select Occupation..."
         required
       />
 
@@ -29,9 +50,10 @@ export default function OccupationInfo({ formData, setFormData }: Props) {
         label="Annual Income (₹)"
         type="number"
         name="income"
-        placeholder="Enter annual household income"
+        min="0"
+        placeholder="Enter annual household income (e.g. 180000)"
         value={formData.income}
-        onChange={handleChange}
+        onChange={handleIncomeChange}
         required
       />
     </div>

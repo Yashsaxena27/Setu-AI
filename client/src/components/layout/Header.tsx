@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
 
@@ -11,6 +11,7 @@ import MagneticButton from "../effects/MagneticButton";
 export default function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,6 +25,27 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleFeaturesClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (location.pathname === "/") {
+      const el = document.getElementById("features");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById("features");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  };
+
+  const isActive = (path: string) => location.pathname === path;
 
   function handleConfirmLogout() {
     setShowLogoutModal(false);
@@ -65,25 +87,40 @@ export default function Header() {
               <Link
                 to="/"
                 data-hover-target="true"
-                className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                  isActive("/") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                }`}
               >
                 Home
               </Link>
 
               <a
                 href="#features"
+                onClick={handleFeaturesClick}
                 data-hover-target="true"
                 className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
               >
                 Features
               </a>
 
+              <Link
+                to="/simulator"
+                data-hover-target="true"
+                className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                  isActive("/simulator") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                }`}
+              >
+                Simulator
+              </Link>
+
               {user && (
                 <>
                   <Link
                     to="/dashboard"
                     data-hover-target="true"
-                    className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                      isActive("/dashboard") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                    }`}
                   >
                     Dashboard
                   </Link>
@@ -91,7 +128,9 @@ export default function Header() {
                   <Link
                     to="/profile"
                     data-hover-target="true"
-                    className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                      isActive("/profile") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                    }`}
                   >
                     Profile
                   </Link>
@@ -99,7 +138,9 @@ export default function Header() {
                   <Link
                     to="/reminders"
                     data-hover-target="true"
-                    className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                      isActive("/reminders") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                    }`}
                   >
                     Reminders
                   </Link>
@@ -107,7 +148,9 @@ export default function Header() {
                   <Link
                     to="/settings"
                     data-hover-target="true"
-                    className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                      isActive("/settings") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                    }`}
                   >
                     Settings
                   </Link>

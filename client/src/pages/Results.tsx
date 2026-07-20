@@ -95,11 +95,13 @@ export default function Results() {
   const [animatedCount, setAnimatedCount] = useState(0);
 
   useEffect(() => {
-    if (matches.length === 0) {
+    const hasProfile = localStorage.getItem("profile");
+    const hasMatches = localStorage.getItem("latestMatches");
+    if (!hasProfile && !hasMatches && matches.length === 0) {
       toast.error("Please complete the Profile Wizard to view matches.");
       navigate("/profile", { replace: true });
     }
-  }, [matches, navigate]);
+  }, [matches.length, navigate]);
 
   useEffect(() => {
     if (showOverlay) return;

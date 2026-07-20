@@ -295,7 +295,7 @@ ${scheme?.official_link || "Not available"}
       </PageContainer>
 
       {/* Floating Premium Action Toolbar (Apple / Vercel style) */}
-      <div className="fixed bottom-6 inset-x-4 z-40 flex justify-center">
+      <div className="fixed bottom-20 md:bottom-6 inset-x-4 z-40 flex justify-center">
         <div className="bg-[#0F172A] border border-white/10 text-white px-5 py-3 rounded-2xl flex items-center gap-2 sm:gap-4 shadow-premium backdrop-blur-md max-w-full overflow-x-auto no-scrollbar">
           
           <button

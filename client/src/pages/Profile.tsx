@@ -148,7 +148,9 @@ export default function Profile() {
     setLoading(true);
     try {
       await saveProfile(formData);
+      localStorage.setItem("profile", JSON.stringify(formData));
       const result = await getMatches(formData);
+      localStorage.setItem("latestMatches", JSON.stringify(result.matches || []));
       localStorage.removeItem("reasoningShown");
       navigate("/results", {
         state: {

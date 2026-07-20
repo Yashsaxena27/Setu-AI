@@ -7,8 +7,11 @@ type Props = {
 export default function Review({ formData }: Props) {
   return (
     <Card className="border border-[#0F172A]/5 p-6 bg-[#FAF8F3]/30">
-      <div className="space-y-4">
+      <div className="space-y-4 font-sans">
         {Object.entries(formData).map(([key, value]) => {
+          // Never display rawText on the user-facing review card
+          if (key === "rawText") return null;
+
           const displayLabel = key
             .replace(/_/g, " ")
             .replace(/\b\w/g, (c) => c.toUpperCase());

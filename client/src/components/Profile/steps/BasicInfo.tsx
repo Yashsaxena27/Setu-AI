@@ -12,7 +12,7 @@ export default function BasicInfo({ formData, setFormData }: Props) {
       <Input
         label="Full Name"
         type="text"
-        placeholder="Enter your name"
+        placeholder="Enter your full name"
         value={formData.name}
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         required
@@ -21,7 +21,9 @@ export default function BasicInfo({ formData, setFormData }: Props) {
       <Input
         label="Age"
         type="number"
-        placeholder="Enter your age"
+        min="1"
+        max="120"
+        placeholder="Enter your age (e.g. 25)"
         value={formData.age}
         onChange={(e) => setFormData({ ...formData, age: e.target.value })}
         required
@@ -36,6 +38,7 @@ export default function BasicInfo({ formData, setFormData }: Props) {
         <option value="">Select Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
+        <option value="Transgender">Transgender</option>
         <option value="Other">Other</option>
       </Select>
     </div>
