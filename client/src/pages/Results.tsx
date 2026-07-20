@@ -207,12 +207,17 @@ export default function Results() {
           <div>
             {matches.length === 0 ? (
               <EmptyState
-                title="No Scheme Matches Found"
-                description="We couldn't find matches. Try adjusting your parameters in the Profile Wizard."
+                title="No Eligible Schemes Found"
+                description="Your current demographic parameters (age, income ceiling, state, or occupation) do not match any active scheme rules in our database. Try testing hypothetical profile changes in the Simulator or refining your profile details."
                 action={
-                  <Button onClick={() => navigate("/profile")}>
-                    Edit Profile
-                  </Button>
+                  <div className="flex flex-wrap justify-center gap-3 mt-2">
+                    <Button onClick={() => navigate("/profile")}>
+                      Edit Profile Wizard
+                    </Button>
+                    <Button variant="secondary" onClick={() => navigate("/simulator")}>
+                      Try Eligibility Simulator
+                    </Button>
+                  </div>
                 }
               />
             ) : (

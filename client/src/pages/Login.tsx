@@ -106,6 +106,7 @@ export default function Login() {
                 type="submit"
                 className="w-full"
                 loading={loading}
+                disabled={loading}
               >
                 Sign In
               </Button>

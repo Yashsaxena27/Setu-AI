@@ -124,6 +124,7 @@ export default function Register() {
                 type="submit"
                 className="w-full mt-2"
                 loading={loading}
+                disabled={loading}
               >
                 Create Account
               </Button>

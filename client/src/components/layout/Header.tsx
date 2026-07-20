@@ -154,6 +154,16 @@ export default function Header() {
                   >
                     Settings
                   </Link>
+
+                  <Link
+                    to="/consent"
+                    data-hover-target="true"
+                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                      isActive("/consent") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                    }`}
+                  >
+                    Consent
+                  </Link>
                 </>
               )}
 
