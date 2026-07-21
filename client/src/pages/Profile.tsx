@@ -117,8 +117,10 @@ export default function Profile() {
           rawText: profile.rawText || "",
         });
         
-        if (profile.name) {
+        if (profile.age && profile.state && profile.occupation) {
           setStep(6);
+        } else {
+          setStep(1);
         }
       } catch {
         // Ignore if no saved profile exists
