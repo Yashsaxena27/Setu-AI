@@ -3,55 +3,57 @@ import bcrypt from "bcryptjs";
 import User from "../models/user";
 import generateToken from "../utils/generateToken";
 import { AuthRequest } from "../middleware/authMiddleware";
+
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
+    const cleanEmail = (email || "").trim().toLowerCase();
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: cleanEmail });
 
     if (existingUser) {
       return res.status(400).json({
-        message: "User already exists",
+        message: "User already exists with this email",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Use 8 salt rounds for fast computation (~40ms)
+    const hashedPassword = await bcrypt.hash(password, 8);
 
     const user = await User.create({
-      name,
-      email,
+      name: (name || "").trim(),
+      email: cleanEmail,
       password: hashedPassword,
     });
 
     const token = generateToken(user._id.toString());
 
     const userResponse = user.toObject();
-delete userResponse.password;
+    delete userResponse.password;
 
-res.status(201).json({
-  message: "Registration Successful",
-  token,
-  user: userResponse,
-});
-
-  } catch (err) {
+    res.status(201).json({
+      message: "Registration Successful",
+      token,
+      user: userResponse,
+    });
+  } catch (err: any) {
+    console.error("Register Error:", err);
     res.status(500).json({
-      message: "Registration Failed",
-      error: err,
+      message: err?.message || "Registration Failed",
     });
   }
 };
 
 export const login = async (req: Request, res: Response) => {
   try {
-
     const { email, password } = req.body;
+    const cleanEmail = (email || "").trim().toLowerCase();
 
     if (!password) {
       return res.status(400).json({ message: "Password is required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: cleanEmail });
 
     if (!user) {
       return res.status(404).json({
@@ -81,10 +83,10 @@ export const login = async (req: Request, res: Response) => {
       token,
       user: userResponse,
     });
-
-  } catch (err) {
+  } catch (err: any) {
+    console.error("Login Error:", err);
     res.status(500).json({
-      message: "Login Failed",
+      message: err?.message || "Login Failed",
     });
   }
 };
