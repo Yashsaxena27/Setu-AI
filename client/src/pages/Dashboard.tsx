@@ -179,7 +179,7 @@ export default function Dashboard() {
                 </div>
                 <div className="space-y-3">
                   <Button
-                    onClick={() => navigate("/profile")}
+                    onClick={() => navigate("/profile", { state: { from: "/dashboard", label: "Dashboard" } })}
                     className="w-full justify-between"
                   >
                     <span>Update Citizen Profile</span>
@@ -213,7 +213,7 @@ export default function Dashboard() {
                   title="No Matches Found"
                   description="Complete the Profile Wizard to let Setu AI match you with qualified schemes."
                   action={
-                    <Button onClick={() => navigate("/profile")}>
+                    <Button onClick={() => navigate("/profile", { state: { from: "/dashboard", label: "Dashboard" } })}>
                       Start Profile Wizard
                     </Button>
                   }

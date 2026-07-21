@@ -6,6 +6,16 @@ interface Props {
 export default function StepIndicator({ current, total }: Props) {
   const percentage = Math.round((current / total) * 100);
 
+  if (current === total) {
+    return (
+      <div className="flex justify-center mb-6">
+        <h2 className="font-serif text-3xl font-bold tracking-tight text-[#0F172A]">
+          Profile Summary
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-between items-baseline mb-2">
       <h2 className="font-serif text-2xl font-bold tracking-tight text-[#0F172A]">

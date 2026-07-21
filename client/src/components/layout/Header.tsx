@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import MagneticButton from "../effects/MagneticButton";
+import { Logo } from "../ui/BridgeLogo";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -16,6 +17,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  
+  const hasConsent = localStorage.getItem("userConsent") === "true";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,6 +48,14 @@ export default function Header() {
     }
   };
 
+  const handleHomeClick = (e: React.MouseEvent) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    setMobileMenuOpen(false);
+  };
+
   const isActive = (path: string) => location.pathname === path;
 
   function handleConfirmLogout() {
@@ -55,9 +66,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-3 z-50 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-8 z-50 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         <div
-          className={`glass rounded-full border border-[#0F172A]/10 px-4 sm:px-6 py-2.5 transition-all duration-300 ${
+          className={`glass rounded-full border border-[#0F172A]/10 px-6 sm:px-8 py-3.5 transition-all duration-300 ${
             scrolled ? "shadow-premium border-[#14B8A6]/20 bg-white/85" : "shadow-soft bg-white/70"
           }`}
         >
@@ -65,29 +76,20 @@ export default function Header() {
             {/* Logo with Bridge Motif SVG */}
             <Link
               to="/"
+              onClick={handleHomeClick}
               data-hover-target="true"
-              className="flex items-center gap-2.5 text-lg font-serif font-black tracking-tight text-[#0F172A] group"
+              className="group"
             >
-              <svg className="h-6 w-6" viewBox="0 0 32 32" fill="none">
-                <circle cx="6" cy="22" r="3" fill="#14B8A6" />
-                <circle cx="26" cy="22" r="3" fill="#F59E0B" />
-                <path
-                  d="M 6 22 C 11 10, 21 10, 26 22"
-                  stroke="#14B8A6"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-              </svg>
-              <span>Setu AI</span>
+              <Logo className="text-lg text-[#0F172A] group-hover:opacity-80 transition" />
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden items-center gap-6 md:flex">
+            <nav className="hidden items-center justify-center flex-1 gap-4 lg:gap-7 xl:flex">
               <Link
                 to="/"
+                onClick={handleHomeClick}
                 data-hover-target="true"
-                className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                   isActive("/") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                 }`}
               >
@@ -98,7 +100,7 @@ export default function Header() {
                 href="#features"
                 onClick={handleFeaturesClick}
                 data-hover-target="true"
-                className="text-xs font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
+                className="text-sm font-bold uppercase tracking-wider text-[#0F172A]/70 hover:text-[#14B8A6] transition duration-200"
               >
                 Features
               </a>
@@ -106,7 +108,7 @@ export default function Header() {
               <Link
                 to="/simulator"
                 data-hover-target="true"
-                className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                   isActive("/simulator") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                 }`}
               >
@@ -118,7 +120,7 @@ export default function Header() {
                   <Link
                     to="/dashboard"
                     data-hover-target="true"
-                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                    className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                       isActive("/dashboard") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                     }`}
                   >
@@ -127,8 +129,9 @@ export default function Header() {
 
                   <Link
                     to="/profile"
+                    state={{ from: "/", label: "Home" }}
                     data-hover-target="true"
-                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                    className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                       isActive("/profile") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                     }`}
                   >
@@ -138,7 +141,7 @@ export default function Header() {
                   <Link
                     to="/reminders"
                     data-hover-target="true"
-                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                    className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                       isActive("/reminders") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                     }`}
                   >
@@ -148,28 +151,33 @@ export default function Header() {
                   <Link
                     to="/settings"
                     data-hover-target="true"
-                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
+                    className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
                       isActive("/settings") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
                     }`}
                   >
                     Settings
                   </Link>
 
-                  <Link
-                    to="/consent"
-                    data-hover-target="true"
-                    className={`text-xs font-bold uppercase tracking-wider transition duration-200 ${
-                      isActive("/consent") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
-                    }`}
-                  >
-                    Consent
-                  </Link>
+                  {!hasConsent && (
+                    <Link
+                      to="/consent"
+                      data-hover-target="true"
+                      className={`text-sm font-bold uppercase tracking-wider transition duration-200 ${
+                        isActive("/consent") ? "text-[#14B8A6]" : "text-[#0F172A]/70 hover:text-[#14B8A6]"
+                      }`}
+                    >
+                      Consent
+                    </Link>
+                  )}
                 </>
               )}
 
+            </nav>
+
+            <div className="hidden items-center xl:flex flex-shrink-0 ml-4">
               {!user ? (
                 <MagneticButton>
-                  <Button onClick={() => navigate("/login")} size="sm">
+                  <Button onClick={() => navigate("/login")}>
                     Login
                   </Button>
                 </MagneticButton>
@@ -177,18 +185,17 @@ export default function Header() {
                 <Button
                   onClick={() => setShowLogoutModal(true)}
                   variant="danger"
-                  size="sm"
                   data-hover-target="true"
                 >
                   Logout
                 </Button>
               )}
-            </nav>
+            </div>
 
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-full p-2 text-[#0F172A] hover:bg-black/5 md:hidden cursor-pointer"
+              className="rounded-full p-2 text-[#0F172A] hover:bg-black/5 xl:hidden cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
@@ -209,7 +216,7 @@ export default function Header() {
               <div className="flex flex-col gap-4 font-semibold text-sm">
                 <Link
                   to="/"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={handleHomeClick}
                   className="text-[#0F172A] hover:text-[#14B8A6] transition"
                 >
                   Home
@@ -235,6 +242,7 @@ export default function Header() {
 
                     <Link
                       to="/profile"
+                      state={{ from: "/", label: "Home" }}
                       onClick={() => setMobileMenuOpen(false)}
                       className="text-[#0F172A] hover:text-[#14B8A6] transition"
                     >

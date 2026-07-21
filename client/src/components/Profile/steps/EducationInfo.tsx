@@ -23,9 +23,13 @@ export default function EducationInfo({ formData, setFormData }: Props) {
         required
       >
         <option value="">Select Qualification</option>
+        <option value="High School">High School</option>
         <option value="School">School</option>
+        <option value="Undergraduate">Undergraduate</option>
         <option value="Graduate">Graduate</option>
         <option value="Post Graduate">Post Graduate</option>
+        <option value="Diploma">Diploma</option>
+        <option value="Doctorate">Doctorate</option>
         <option value="Other">Other</option>
       </Select>
 

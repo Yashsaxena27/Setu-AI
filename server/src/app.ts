@@ -48,5 +48,5 @@ app.use("/health", healthRoutes);
 app.use("/vector-search", vectorRoutes);
 app.use("/explain", explainRoutes);
 app.use("/whatsapp", whatsappRoutes);
-app.use("/api/simulator", simulatorRoutes);
+app.use("/simulator", simulatorRoutes);
 export default app;

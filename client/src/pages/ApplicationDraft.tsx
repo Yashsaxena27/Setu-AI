@@ -8,6 +8,7 @@ import Header from "../components/layout/Header";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/ui/Button";
+import { BridgeIcon } from "../components/ui/BridgeLogo";
 import Badge from "../components/ui/Badge";
 import Skeleton from "../components/ui/Skeleton";
 import Reveal from "../components/effects/Reveal";
@@ -228,7 +229,9 @@ ${scheme?.official_link || "Not available"}
             <div>
               {/* Fake Official seal look */}
               <div className="text-center pb-6 border-b border-slate-100 mb-8 space-y-2">
-                <span className="text-2xl">🏛️</span>
+                <div className="flex justify-center mb-4">
+                  <BridgeIcon className="h-8 w-8" />
+                </div>
                 <h2 className="font-serif text-lg font-bold tracking-tight text-[#0F172A]">
                   CITIZEN APPLICATION SUPPORT LOG
                 </h2>

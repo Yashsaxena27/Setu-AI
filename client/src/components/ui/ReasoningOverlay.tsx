@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle, FaSpinner } from "react-icons/fa";
+import { Logo } from "./BridgeLogo";
 
 interface ReasoningOverlayProps {
   matchCount: number;
@@ -71,7 +72,7 @@ export default function ReasoningOverlay({
       
       {/* Top Bar with Skip */}
       <div className="flex justify-between items-center max-w-4xl mx-auto w-full py-4">
-        <span className="font-serif text-lg font-black text-[#0F172A]">🏛️ Setu AI</span>
+        <Logo />
         <button
           onClick={onFinished}
           className="text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-[#0F172A] border border-[#0F172A]/10 px-3 py-1.5 rounded-xl hover:bg-[#0F172A]/5 transition cursor-pointer"

@@ -12,6 +12,7 @@ export default function Consent() {
 
   const handleContinue = () => {
     if (!agreed) return;
+    localStorage.setItem("userConsent", "true");
     navigate("/profile");
   };
 

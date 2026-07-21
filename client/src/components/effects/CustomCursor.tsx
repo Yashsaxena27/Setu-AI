@@ -56,21 +56,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Inner Dot */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] h-2.5 w-2.5 rounded-full bg-[#14B8A6] mix-blend-difference"
-        style={{
-          x: mouseX,
-          y: mouseY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          scale: isHovered ? 2.5 : 1,
-        }}
-        transition={{ duration: 0.15 }}
-      />
-
       {/* Outer Spring Ring */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full border border-[#14B8A6]/60"

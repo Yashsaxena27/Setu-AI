@@ -6,6 +6,7 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import Badge from "../components/ui/Badge";
+import { BridgeIcon, Logo } from "../components/ui/BridgeLogo";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -46,13 +47,13 @@ export default function Register() {
     <div className="min-h-screen flex flex-col md:flex-row bg-[#FAF8F3] font-sans">
       {/* Left Column: Branding / Trust */}
       <div className="hidden md:flex md:w-1/2 bg-[#0F172A] text-white p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute right-0 bottom-0 opacity-5 pointer-events-none">
-          <span className="text-[240px] leading-none select-none">🏛️</span>
+        <div className="absolute right-0 bottom-0 opacity-5 pointer-events-none translate-x-8 translate-y-8">
+          <BridgeIcon className="w-[320px] h-[320px]" />
         </div>
 
         <div className="relative z-10">
-          <Link to="/" className="font-serif text-2xl font-black tracking-tight hover:text-[#14B8A6] transition duration-200">
-            🏛️ Setu AI
+          <Link to="/" className="inline-block group">
+            <Logo className="text-2xl text-white group-hover:text-[#14B8A6] transition duration-200" iconClassName="h-8 w-8" />
           </Link>
         </div>
 

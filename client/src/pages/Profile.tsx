@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { FaArrowLeft } from "react-icons/fa";
 
 import { saveProfile, getProfile } from "../services/profileApi";
 import { getMatches } from "../services/match";
@@ -47,7 +48,7 @@ const demoProfiles = {
     district: "New Delhi",
     occupation: "Student",
     income: "250000",
-    education: "Undergraduate",
+    education: "Graduate",
     disability: "No",
     language: "English",
     phone: "9876543211",
@@ -71,6 +72,10 @@ const demoProfiles = {
 
 export default function Profile() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const backPath = location.state?.from || "/dashboard";
+  const backLabel = location.state?.label || "Dashboard";
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -111,6 +116,10 @@ export default function Profile() {
           phone: profile.phone || "",
           rawText: profile.rawText || "",
         });
+        
+        if (profile.name) {
+          setStep(6);
+        }
       } catch {
         // Ignore if no saved profile exists
       }
@@ -172,6 +181,17 @@ export default function Profile() {
       <PageContainer>
         <div className="max-w-xl mx-auto space-y-8">
           
+          {/* Header Action */}
+          <div className="flex items-center">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => navigate(backPath)}
+            >
+              <FaArrowLeft className="mr-2 h-3.5 w-3.5" /> Back to {backLabel}
+            </Button>
+          </div>
+
           {/* Header */}
           <div className="space-y-2 text-center">
             <Badge variant="accent">Welfare Eligibility Setup</Badge>
@@ -190,18 +210,21 @@ export default function Profile() {
             </p>
             <div className="grid grid-cols-3 gap-2">
               <button
+                type="button"
                 onClick={() => loadDemoProfile("farmer")}
                 className="px-3 py-2.5 rounded-xl border border-[#22C55E]/10 bg-[#22C55E]/5 text-xs font-semibold text-[#22C55E] hover:bg-[#22C55E]/10 transition duration-150 cursor-pointer"
               >
                 👨‍🌾 Farmer
               </button>
               <button
+                type="button"
                 onClick={() => loadDemoProfile("student")}
                 className="px-3 py-2.5 rounded-xl border border-[#14B8A6]/10 bg-[#14B8A6]/5 text-xs font-semibold text-[#14B8A6] hover:bg-[#14B8A6]/10 transition duration-150 cursor-pointer"
               >
                 👩 Student
               </button>
               <button
+                type="button"
                 onClick={() => loadDemoProfile("women")}
                 className="px-3 py-2.5 rounded-xl border border-[#F59E0B]/10 bg-[#F59E0B]/5 text-xs font-semibold text-[#D97706] hover:bg-[#F59E0B]/10 transition duration-150 cursor-pointer"
               >
@@ -217,9 +240,11 @@ export default function Profile() {
           <Card className="border border-[#0F172A]/5 p-8 shadow-premium space-y-6">
             <div>
               <StepIndicator current={step} total={totalSteps} />
-              <div className="mt-4">
-                <ProgressBar current={step} total={totalSteps} />
-              </div>
+              {step < totalSteps && (
+                <div className="mt-4">
+                  <ProgressBar current={step} total={totalSteps} />
+                </div>
+              )}
             </div>
 
             <div className="py-4">
@@ -254,7 +279,15 @@ export default function Profile() {
             </div>
 
             <div className="flex justify-between gap-4 border-t border-slate-100 pt-6">
-              {step > 1 ? (
+              {step === totalSteps ? (
+                <Button
+                  onClick={() => setStep(1)}
+                  variant="secondary"
+                  className="flex-1"
+                >
+                  Update Profile
+                </Button>
+              ) : step > 1 ? (
                 <Button
                   onClick={prevStep}
                   variant="secondary"

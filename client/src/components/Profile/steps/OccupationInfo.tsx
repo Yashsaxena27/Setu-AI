@@ -9,6 +9,7 @@ type Props = {
 const OCCUPATION_OPTIONS = [
   "Student",
   "Farmer",
+  "Woman",
   "Homemaker",
   "Unemployed",
   "Private Employee",

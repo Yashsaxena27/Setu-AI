@@ -39,7 +39,6 @@ export default function TiltCard({
     const percentX = (mouseX / width) - 0.5;
     const percentY = (mouseY / height) - 0.5;
 
-    // Y mouse movement tilts around X axis (and vice-versa)
     rotateX.set(-percentY * maxTilt * 2);
     rotateY.set(percentX * maxTilt * 2);
   };

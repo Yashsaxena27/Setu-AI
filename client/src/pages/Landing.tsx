@@ -4,26 +4,28 @@ import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import {
   FaChevronDown,
   FaCheckCircle,
-  FaBolt,
   FaUserCheck,
   FaMobileAlt,
   FaSearch,
-  FaShieldAlt,
   FaArrowDown,
+  FaWhatsapp,
 } from "react-icons/fa";
 
+import { useAuth } from "../context/AuthContext";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import AnimatedBridge from "../components/effects/AnimatedBridge";
+import HeroDashboard3D from "../components/effects/HeroDashboard3D";
 import BottomBar from "../components/layout/BottomBar";
 import PageContainer from "../components/layout/PageContainer";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import Badge from "../components/ui/Badge";
-import SectionHeader from "../components/ui/SectionHeader";
-
+import { BridgeIcon } from "../components/ui/BridgeLogo";
 import Reveal from "../components/effects/Reveal";
 import TiltCard from "../components/effects/TiltCard";
 import AnimatedCounter from "../components/effects/AnimatedCounter";
+import PipelineSection from "../components/ui/PipelineSection";
 import MagneticButton from "../components/effects/MagneticButton";
 
 const HERO_WORDS = ["welfare", "schemes", "subsidies", "benefits", "support"];
@@ -32,6 +34,13 @@ export default function Landing() {
   const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [wordIndex, setWordIndex] = useState(0);
+
+  const { user } = useAuth();
+  const [hasProfile, setHasProfile] = useState(false);
+
+  useEffect(() => {
+    setHasProfile(!!localStorage.getItem("profile"));
+  }, []);
 
   // How-it-works section scroll progress for line fill
   const stepsRef = useRef<HTMLDivElement>(null);
@@ -79,13 +88,12 @@ export default function Landing() {
     <main className="min-h-screen bg-[#FAF8F3] font-sans pb-16 md:pb-0">
       <Header />
 
-      <PageContainer>
-        {/* Hero Section */}
-        <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
-            
-            {/* Left Column: Heading & CTAs */}
-            <div className="lg:col-span-7 space-y-6">
+      {/* Hero Section */}
+      <section className="relative mx-auto max-w-[1440px] px-5 pt-12 pb-6 md:px-14 lg:pt-24 lg:pb-12 overflow-hidden">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:items-center">
+          
+          {/* Left Column: Heading & CTAs */}
+          <div className="w-full space-y-6">
               <Reveal direction="down" delayOffset={0}>
                 <div className="inline-flex items-center gap-2 rounded-full bg-[#14B8A6]/10 px-3.5 py-1 border border-[#14B8A6]/20">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D9488]">
@@ -126,87 +134,33 @@ export default function Landing() {
               <Reveal direction="up" delayOffset={0.3}>
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <MagneticButton>
-                    <Button onClick={() => navigate("/consent")} size="lg">
-                      Check Your Eligibility
+                    <Button onClick={() => navigate("/consent")} size="lg" className="!rounded-full">
+                      Find my schemes &rarr;
                     </Button>
                   </MagneticButton>
 
-                  <a href="#features">
-                    <Button variant="secondary" size="lg">
-                      Explore Features
-                    </Button>
-                  </a>
+                  <Button 
+                    onClick={() => window.dispatchEvent(new Event("open-whatsapp-widget"))}
+                    variant="ghost" 
+                    size="lg"
+                    className="!rounded-full !border-[#0F172A] !text-[#0F172A] hover:!border-[#14B8A6] hover:!text-[#14B8A6] hover:!bg-[#14B8A6]/5 transition-colors duration-300 flex items-center gap-2 bg-transparent border-2"
+                  >
+                    <FaWhatsapp className="text-lg" /> Message us on WhatsApp
+                  </Button>
                 </div>
               </Reveal>
             </div>
 
-            {/* Right Column: Animated Cards Illustration */}
-            <div className="lg:col-span-5 relative flex justify-center h-[380px] sm:h-[420px]">
-              {/* Radial backdrop glow */}
-              <div className="absolute inset-0 bg-radial from-[#14B8A6]/15 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
-
-              {/* Main Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute z-10 top-12 w-72 rounded-2xl bg-white p-6 shadow-premium border border-[#0F172A]/5"
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <Badge variant="accent">AI Match Status</Badge>
-                  <span className="font-serif font-black text-xl text-[#0F172A]">98%</span>
-                </div>
-                <div className="h-4 w-4/5 bg-slate-100 rounded-md mb-2 animate-pulse" />
-                <div className="h-3 w-1/2 bg-slate-100 rounded-md mb-4 animate-pulse" />
-                <hr className="border-slate-100 mb-4" />
-                <div className="flex gap-2 justify-end">
-                  <div className="h-8 w-20 bg-slate-100 rounded-lg" />
-                  <div className="h-8 w-16 bg-[#14B8A6] rounded-lg" />
-                </div>
-              </motion.div>
-
-              {/* Floating Card 1 - Ramesh Kumar */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute left-2 sm:left-4 top-40 w-44 rounded-xl bg-white/90 glass p-3.5 shadow-soft border border-[#0F172A]/5 z-20"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#0F172A]">
-                  <FaCheckCircle className="text-[#22C55E]" />
-                  <span>Ramesh Kumar</span>
-                </div>
-                <p className="text-[10px] text-slate-400 font-bold mt-1">Farmer • Lucknow, UP</p>
-              </motion.div>
-
-              {/* Floating Card 2 - Active Drafts */}
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute right-2 sm:right-4 top-6 w-48 rounded-xl bg-white/90 glass p-3.5 shadow-soft border border-[#0F172A]/5 z-0"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                  <FaBolt className="text-[#F59E0B]" />
-                  <span>2 Active Drafts</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div className="bg-[#14B8A6] h-full" style={{ width: "85%" }} />
-                </div>
-              </motion.div>
-
-              {/* Trust Verification Micro-Badge */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute bottom-4 right-8 z-20 flex items-center gap-2 bg-white/90 glass px-3 py-1.5 rounded-full shadow-soft border border-[#14B8A6]/20 text-[10px] font-bold text-[#0D9488]"
-              >
-                <FaShieldAlt className="text-[#14B8A6]" />
-                <span>Verified Government Rules</span>
-              </motion.div>
+            {/* Right Column: Animated Bridge Illustration */}
+            <div className="relative w-full mt-12 lg:mt-0">
+              <Reveal direction="left" delayOffset={0.4}>
+                <AnimatedBridge />
+              </Reveal>
             </div>
           </div>
 
           {/* Scroll Cue Indicator */}
-          <div className="flex justify-center pt-8">
+          <div className="flex justify-center pt-16 sm:pt-24">
             <a
               href="#features"
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-[#14B8A6] transition group"
@@ -222,8 +176,9 @@ export default function Landing() {
           </div>
         </section>
 
+      <PageContainer>
         {/* Statistics Section */}
-        <section className="py-12 border-y border-[#0F172A]/5 bg-white/40 rounded-3xl px-6 my-12 shadow-soft">
+        <section className="pt-10 pb-10 border-y border-[#0F172A]/5 bg-white/40 rounded-3xl px-6 mt-6 mb-8 shadow-soft">
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 text-center">
             {stats.map((stat, i) => (
               <Reveal key={i} index={i} direction="up">
@@ -241,13 +196,21 @@ export default function Landing() {
           </div>
         </section>
 
+        <PipelineSection />
+
         {/* Problem & Solution Bento Grid */}
-        <section id="features" className="py-16 space-y-12">
+        <section id="features" className="pt-10 pb-12 space-y-12 scroll-mt-24">
           <Reveal direction="down">
-            <SectionHeader
-              title="Designed for Clarity. Built for Trust."
-              description="Our advanced features address critical challenges in national welfare accessibility."
-            />
+            <div className="flex flex-col items-center text-center space-y-4 mb-12">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">WHAT YOU GET</span>
+              <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-[#0F172A] leading-[1.15]">
+                Discovery is easy.<br />
+                <span className="text-[#0D9488] italic font-medium highlight-underline">Applying is the hard part.</span>
+              </h2>
+              <p className="max-w-xl text-base text-[#0F172A]/70 font-medium leading-relaxed pt-2">
+                Setu closes the gap other platforms leave open — from "you're eligible" to a filled, submittable draft.
+              </p>
+            </div>
           </Reveal>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -279,38 +242,42 @@ export default function Landing() {
 
             {/* Grid Item 2 */}
             <Reveal index={1} direction="up">
-              <Card className="h-full flex flex-col justify-between space-y-6">
-                <div className="space-y-2">
-                  <Badge variant="success">Productivity</Badge>
-                  <h3 className="font-serif text-xl font-bold text-[#0F172A]">
-                    Official Document Checks
-                  </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed font-medium">
-                    Matches automatically calculate what paperwork you need to prepare, bypassing local inquiry visits.
-                  </p>
-                </div>
-                <div className="text-xs text-[#0F172A]/60 font-bold">
-                  • Aadhaar • Income Cert. • Land Records
-                </div>
-              </Card>
+              <TiltCard>
+                <Card className="h-full flex flex-col justify-between space-y-6">
+                  <div className="space-y-2">
+                    <Badge variant="success">Productivity</Badge>
+                    <h3 className="font-serif text-xl font-bold text-[#0F172A]">
+                      Official Document Checks
+                    </h3>
+                    <p className="text-slate-500 text-sm leading-relaxed font-medium">
+                      Matches automatically calculate what paperwork you need to prepare, bypassing local inquiry visits.
+                    </p>
+                  </div>
+                  <div className="text-xs text-[#0F172A]/60 font-bold">
+                    • Aadhaar • Income Cert. • Land Records
+                  </div>
+                </Card>
+              </TiltCard>
             </Reveal>
 
             {/* Grid Item 3 */}
             <Reveal index={2} direction="up">
-              <Card className="h-full flex flex-col justify-between space-y-6">
-                <div className="space-y-2">
-                  <Badge variant="warning">Accessibility</Badge>
-                  <h3 className="font-serif text-xl font-bold text-[#0F172A]">
-                    Eligibility Simulator
-                  </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed font-medium">
-                    Simulate major life events—like changes in jobs, income, or graduation status—to see scheme adjustments.
-                  </p>
-                </div>
-                <Button onClick={() => navigate("/simulator")} variant="ghost" size="sm" className="w-full justify-start p-0">
-                  Run Simulation →
-                </Button>
-              </Card>
+              <TiltCard>
+                <Card className="h-full flex flex-col justify-between space-y-6">
+                  <div className="space-y-2">
+                    <Badge variant="warning">Accessibility</Badge>
+                    <h3 className="font-serif text-xl font-bold text-[#0F172A]">
+                      Eligibility Simulator
+                    </h3>
+                    <p className="text-slate-500 text-sm leading-relaxed font-medium">
+                      Simulate major life events—like changes in jobs, income, or graduation status—to see scheme adjustments.
+                    </p>
+                  </div>
+                  <Button onClick={() => navigate("/simulator")} variant="ghost" size="sm" className="w-full justify-start p-0">
+                    Run Simulation →
+                  </Button>
+                </Card>
+              </TiltCard>
             </Reveal>
 
             {/* Grid Item 4 - Spanning with Tilt */}
@@ -343,13 +310,15 @@ export default function Landing() {
         </section>
 
         {/* How Setu Works */}
-        <section ref={stepsRef} className="py-16 space-y-12">
+        <section ref={stepsRef} className="py-12 space-y-12">
           <Reveal direction="down">
-            <div className="text-center space-y-4">
-              <h2 className="font-serif text-4xl font-extrabold text-[#0F172A]">
+            <div className="flex flex-col items-center text-center space-y-4 mb-16 relative">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">HOW IT WORKS</span>
+              <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-[#0F172A] leading-[1.15]">
                 Simple Three Step Discovery
               </h2>
-              <p className="text-slate-500 max-w-xl mx-auto font-medium text-sm">
+
+              <p className="max-w-xl mx-auto text-sm sm:text-base text-slate-500 font-medium leading-relaxed">
                 We guide you from profiling to draft preparation with absolute clarity.
               </p>
             </div>
@@ -366,41 +335,47 @@ export default function Landing() {
 
             {/* Step 1 */}
             <Reveal index={0} direction="up">
-              <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
-                <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
-                  1
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#0F172A]">Complete Your Profile</h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                  Answer structured steps: income, location, occupation, and health status. We protect your privacy at every stage.
-                </p>
-              </Card>
+              <TiltCard>
+                <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
+                  <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
+                    1
+                  </div>
+                  <h3 className="font-serif text-xl font-bold text-[#0F172A]">Complete Your Profile</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                    Answer structured steps: income, location, occupation, and health status. We protect your privacy at every stage.
+                  </p>
+                </Card>
+              </TiltCard>
             </Reveal>
 
             {/* Step 2 */}
             <Reveal index={1} direction="up">
-              <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
-                <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
-                  2
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#0F172A]">AI Match & Review</h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                  Our hybrid RAG model matches you against federal guidelines, yielding a checklist of qualified schemes.
-                </p>
-              </Card>
+              <TiltCard>
+                <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
+                  <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
+                    2
+                  </div>
+                  <h3 className="font-serif text-xl font-bold text-[#0F172A]">AI Match & Review</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                    Our hybrid RAG model matches you against federal guidelines, yielding a checklist of qualified schemes.
+                  </p>
+                </Card>
+              </TiltCard>
             </Reveal>
 
             {/* Step 3 */}
             <Reveal index={2} direction="up">
-              <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
-                <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
-                  3
-                </div>
-                <h3 className="font-serif text-xl font-bold text-[#0F172A]">Prepare Application</h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                  Download a clean, pre-filled application draft PDF and proceed directly to official web links to submit.
-                </p>
-              </Card>
+              <TiltCard>
+                <Card className="text-center p-8 space-y-4 flex flex-col items-center h-full">
+                  <div className="h-12 w-12 rounded-full bg-[#14B8A6]/10 text-[#0D9488] font-bold text-xl flex items-center justify-center border border-[#14B8A6]/20">
+                    3
+                  </div>
+                  <h3 className="font-serif text-xl font-bold text-[#0F172A]">Prepare Application</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                    Download a clean, pre-filled application draft PDF and proceed directly to official web links to submit.
+                  </p>
+                </Card>
+              </TiltCard>
             </Reveal>
           </div>
         </section>
@@ -412,8 +387,8 @@ export default function Landing() {
               {/* Ambient Blob */}
               <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-radial from-[#14B8A6]/30 via-[#F59E0B]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-              <div className="absolute right-0 bottom-0 top-0 opacity-10 pointer-events-none">
-                <span className="text-[200px] leading-none select-none">🏛️</span>
+              <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-8 translate-y-8">
+                <BridgeIcon className="h-[240px] w-[240px]" />
               </div>
               
               <div className="relative z-10 max-w-2xl space-y-6">
@@ -443,8 +418,77 @@ export default function Landing() {
           </Reveal>
         </section>
 
+        {/* 3D Animated Dynamic Dashboard */}
+        {user && hasProfile && (
+          <section className="pb-16 sm:pb-24">
+            <Reveal direction="up">
+              <div className="w-full">
+                <HeroDashboard3D />
+              </div>
+            </Reveal>
+          </section>
+        )}
+
+        {/* Built Responsibly Section */}
+        <section id="trust" className="py-8 space-y-12 scroll-mt-32">
+          <Reveal direction="down">
+            <div className="text-center space-y-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#14B8A6]">Built Responsibly</span>
+              <h2 className="font-serif text-4xl sm:text-5xl font-extrabold text-[#0F172A] leading-tight">
+                Sensitive data. <br />
+                <span className="italic text-[#14B8A6] font-serif font-medium">Handled seriously.</span>
+              </h2>
+              <p className="text-slate-500 font-medium text-sm sm:text-base max-w-2xl mx-auto">
+                Income, disability status, occupation — this is exactly the data that deserves the most care, grounded in India's DPDP Act.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Reveal index={0} direction="up">
+              <Card className="p-6 space-y-4 h-full transition-colors duration-300 hover:border-[#14B8A6] hover:bg-[#F0FDFA]/30">
+                <span className="text-xs font-bold text-[#94A3B8]">01</span>
+                <h3 className="font-serif text-lg font-bold text-[#0F172A]">Data minimization</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  Only fields actually used in matching are collected — nothing "just in case."
+                </p>
+              </Card>
+            </Reveal>
+
+            <Reveal index={1} direction="up">
+              <Card className="p-6 space-y-4 h-full transition-colors duration-300 hover:border-[#14B8A6] hover:bg-[#F0FDFA]/30">
+                <span className="text-xs font-bold text-[#94A3B8]">02</span>
+                <h3 className="font-serif text-lg font-bold text-[#0F172A]">Explicit consent</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  A checked box, not a pre-checked default. No profile form proceeds without it.
+                </p>
+              </Card>
+            </Reveal>
+
+            <Reveal index={2} direction="up">
+              <Card className="p-6 space-y-4 h-full transition-colors duration-300 hover:border-[#14B8A6] hover:bg-[#F0FDFA]/30">
+                <span className="text-xs font-bold text-[#94A3B8]">03</span>
+                <h3 className="font-serif text-lg font-bold text-[#0F172A]">Real right to deletion</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  "Delete my data" triggers an actual hard delete — not a cosmetic screen.
+                </p>
+              </Card>
+            </Reveal>
+
+            <Reveal index={3} direction="up">
+              <Card className="p-6 space-y-4 h-full transition-colors duration-300 hover:border-[#14B8A6] hover:bg-[#F0FDFA]/30">
+                <span className="text-xs font-bold text-[#94A3B8]">04</span>
+                <h3 className="font-serif text-lg font-bold text-[#0F172A]">Prompt-injection safe</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  User text is always data, never instruction — sandboxed in every LLM call.
+                </p>
+              </Card>
+            </Reveal>
+          </div>
+        </section>
+
         {/* FAQ Section */}
-        <section className="py-16 max-w-4xl mx-auto space-y-8">
+        <section className="pt-16 pb-0 max-w-4xl mx-auto space-y-8">
           <Reveal direction="down">
             <div className="text-center space-y-2">
               <h2 className="font-serif text-4xl font-extrabold text-[#0F172A]">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaWhatsapp, FaTimes, FaPaperPlane, FaShieldAlt, FaCopy, FaExternalLinkAlt, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
@@ -11,6 +11,12 @@ export default function WhatsAppWidget() {
   const [showSetupModal, setShowSetupModal] = useState(false);
   const [copiedCmd, setCopiedCmd] = useState(false);
   const [copiedNum, setCopiedNum] = useState(false);
+
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener("open-whatsapp-widget", handleOpen);
+    return () => window.removeEventListener("open-whatsapp-widget", handleOpen);
+  }, []);
 
   const userName = user?.name ? user.name.split(" ")[0] : "Citizen";
   const whatsappNumber = "+14155238886";
@@ -57,7 +63,7 @@ export default function WhatsAppWidget() {
 
   return (
     <>
-      <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 font-sans">
+      <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 font-sans flex flex-col items-end">
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -147,11 +153,11 @@ export default function WhatsAppWidget() {
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
           data-hover-target="true"
-          className="flex items-center gap-2 bg-[#22C55E] text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-premium hover:bg-[#16a34a] transition duration-200 cursor-pointer"
+          className="group flex items-center bg-[#22C55E] text-white p-3.5 rounded-full shadow-premium hover:bg-[#16a34a] transition-all duration-300 cursor-pointer"
           aria-label="Open WhatsApp Assistant"
         >
-          <FaWhatsapp className="h-6 w-6" />
-          <span className="hidden sm:inline text-xs font-bold tracking-wide">
+          <FaWhatsapp className="h-6 w-6 shrink-0" />
+          <span className="hidden sm:block max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-[150px] group-hover:ml-2 transition-all duration-300 ease-in-out text-xs font-bold tracking-wide">
             WhatsApp Assistant
           </span>
         </motion.button>
