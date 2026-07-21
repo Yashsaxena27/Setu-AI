@@ -4,6 +4,14 @@
   <p><strong>Bridging Citizens to the Government Schemes They Deserve</strong></p>
   
   <p>
+    <a href="https://setu-ai-six.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-setu--ai--six.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Live Demo" /></a>
+  </p>
+  
+  <p>
+    <a href="https://setu-ai-six.vercel.app"><strong>🌐 Try Live Production App: https://setu-ai-six.vercel.app</strong></a>
+  </p>
+
+  <p>
     <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square" alt="React" /></a>
     <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&style=flat-square" alt="Vite" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?logo=tailwind-css&logoColor=white&style=flat-square" alt="TailwindCSS" /></a>
