@@ -1,89 +1,176 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/yashsaxena27/setu-ai/main/client/public/vite.svg" alt="Setu AI Logo" width="80" height="80" />
-  <h1>Setu AI</h1>
-  <p><strong>Bridging Citizens to the Government Schemes They Deserve</strong></p>
-  
+  <h1>Setu AI (🏛️ सेतु AI)</h1>
+  <p><strong>Bridging Indian Citizens to the Government Schemes They Deserve</strong></p>
+
   <p>
     <a href="https://setu-ai-six.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-setu--ai--six.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Live Demo" /></a>
-  </p>
-  
-  <p>
-    <a href="https://setu-ai-six.vercel.app"><strong>🌐 Try Live Production App: https://setu-ai-six.vercel.app</strong></a>
   </p>
 
   <p>
     <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square" alt="React" /></a>
-    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&style=flat-square" alt="Vite" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?logo=tailwind-css&logoColor=white&style=flat-square" alt="TailwindCSS" /></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&style=flat-square" alt="TypeScript" /></a>
-    <a href="https://deepmind.google/technologies/gemini/"><img src="https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?logo=google&logoColor=white&style=flat-square" alt="Google Gemini API" /></a>
+    <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js" /></a>
+    <a href="https://www.mongodb.com/atlas"><img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white&style=flat-square" alt="MongoDB" /></a>
+    <a href="https://deepmind.google/technologies/gemini/"><img src="https://img.shields.io/badge/Google-Gemini-4285F4?logo=google&logoColor=white&style=flat-square" alt="Google Gemini" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?logo=tailwind-css&logoColor=white&style=flat-square" alt="TailwindCSS" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" /></a>
+  </p>
+
+  <p>
+    <a href="https://setu-ai-six.vercel.app"><strong>🌐 Try Live Production App: https://setu-ai-six.vercel.app</strong></a>
   </p>
 </div>
 
 ---
 
-Setu AI is a premium, production-grade civic-tech platform designed to bridge the gap between complex eligibility guidelines and the citizens who need welfare benefits the most. Built with a focus on privacy, simplicity, and speed.
+## 📌 Overview
 
-🏆 **Built for the Lenovo Leap Hackathon 2026**
+Setu AI is an **AI-powered Government Scheme Discovery Platform** built using **Hybrid Retrieval-Augmented Generation (Hybrid RAG)** for explainable and trustworthy welfare recommendations. It bridges the gap between 86+ complex government scheme guidelines and millions of eligible Indian citizens.
 
-## 📖 The Problem
-
-Millions of citizens miss out on essential welfare schemes because:
-1. **Information Fragmentation**: Guidelines are spread across hundreds of confusing state directories.
-2. **Textual Complexity**: Legal criteria and eligibility constraints are written in dense bureaucratic language.
-3. **Application Friction**: Finding the right documents and formatting cover letters require physical visits to local centers.
-
-## 🟢 The Solution
-
-Setu AI translates complex legal requirements into simple, actionable steps using RAG (Retrieval-Augmented Generation) technology.
-
-### 🌟 Key Features
-- **RAG-powered Hybrid Eligibility Engine**: Setu AI uses exact vector matches and strict constraint filters (Age, Income, Location) so the AI **never hallucinates** eligibility.
-- **Official Document Checks**: Automatically calculates exactly what paperwork you need to prepare (Aadhaar, Income Certificates, etc.).
-- **Eligibility Simulator Sandbox**: Real-time simulation of life events (e.g. changing income, moving states) to see how scheme eligibility adjusts.
-- **AI Application Drafts & WhatsApp Delivery**: Get high-quality application drafts in a built-in Google Docs style editor. Export immediately to PDF or receive matches directly on WhatsApp.
-- **Privacy First (DPDP Compliant)**: Only collects required data, enforces explicit consent, guarantees a hard-delete right, and uses sandboxed prompt-injection safe LLM calls.
+🏆 **Built for Lenovo Leap Hackathon 2026**
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 📸 Screenshots
 
-Setu AI employs a decoupled Client-Server architecture for maximum security and performance.
+| 🏠 Landing Page | 👤 Citizen Profile Wizard | 🎯 Scheme Results & AI Rationale |
+| :---: | :---: | :---: |
+| *(Add `docs/landing.png` here)* | *(Add `docs/profile.png` here)* | *(Add `docs/results.png` here)* |
 
-```mermaid
-graph LR
-    A[Vite React Frontend] <--> B[Express API Gateway]
-    B --> C[(MongoDB & Vector Index)]
-    B --> D[Google Gemini 2.5 Flash]
-    B --> E[Twilio API]
+| 🧪 Eligibility Simulator | 📄 AI Application Draft & PDF | 💬 WhatsApp Assistant |
+| :---: | :---: | :---: |
+| *(Add `docs/simulator.png` here)* | *(Add `docs/draft.png` here)* | *(Add `docs/whatsapp.png` here)* |
+
+---
+
+## 📖 The Problem
+
+Millions of Indian citizens fail to receive government welfare benefits due to:
+1. **Information Asymmetry**: Scheme criteria are buried across hundreds of fragmented state portals and 50-page PDFs.
+2. **Dense Legal Language**: Eligibility constraints are written in complex bureaucratic jargon.
+3. **Application Friction & Hallucination**: Generic search engines recommend schemes that citizens fail hard constraints for, wasting days of application effort.
+
+---
+
+## 🟢 The Solution & Architecture
+
+Setu AI translates complex legal requirements into plain-language actionable recommendations via a 4-tier **Hybrid RAG Pipeline**:
+
+```
+Deterministic Hard Filters
+           ↓
+Gemini 768-dim Embeddings
+           ↓
+MongoDB Atlas Vector Search ($vectorSearch)
+           ↓
+Explainable AI (Gemini 1.5 Flash)
 ```
 
+### 🗺️ System Architecture Diagram
+
+```mermaid
+graph TD
+    A[Citizen Input / Demo Preset] --> B[Vite React 19 Frontend]
+    B --> C[Express.js REST API]
+    C --> D[Google Gemini text-embedding-004]
+    D --> E[MongoDB Atlas Vector Search]
+    E --> F[Deterministic Hard Filter Engine: Age, State, Income, Occupation]
+    F --> G[Google Gemini 1.5 Flash LLM]
+    G --> H[Plain-Language Match Rationale]
+    G --> I[Automated Application Draft Letter]
+    H --> J[Client Dashboard & PDF Export Engine]
+    I --> K[WhatsApp Assistant Notification]
+```
+
+---
+
+## ✨ Features & Status
+
+| Feature | Status | Description |
+| :--- | :---: | :--- |
+| **Hybrid RAG Matching** | ✅ | Combines MongoDB `$vectorSearch` with hard filter constraint rules so AI **never hallucinates** eligibility. |
+| **86 Verified Schemes** | ✅ | Indexed across Agriculture, Education, Women Empowerment, Health, and Business Aid. |
+| **Explainable AI Rationale** | ✅ | Gemini 1.5 Flash provides plain-language reasons *why* a citizen qualifies for each scheme. |
+| **AI Application Drafts** | ✅ | Generates formatted official application letters with mandatory document checklists. |
+| **Instant PDF Export** | ✅ | Native client-side A4 PDF generation using `html2canvas` & `jsPDF`. |
+| **WhatsApp Assistant** | ✅ | Interactive Sandbox connection modal (`join solve-motor`) with copy buttons & WhatsApp deep links. |
+| **Eligibility Simulator** | ✅ | Sandbox testing environment to preview how life events (income, state change) adjust eligibility. |
+| **Compare Schemes** | ✅ | Side-by-side comparison on benefit values, deadlines, funding agencies, and required documents. |
+| **Command Palette (`⌘K`)** | ✅ | Keyboard-driven quick navigation overlay across all portal routes. |
+| **Privacy & Consent** | ✅ | DPDP compliant explicit user consent, hard-delete rights, and sandboxed LLM calls. |
+
+---
+
+## 🚀 Deployment
+
+- **Frontend Application**: [https://setu-ai-six.vercel.app](https://setu-ai-six.vercel.app) (Vercel)
+- **Backend API Server**: Node.js & Express API (Render / Railway)
+- **Database & Search**: MongoDB Atlas Vector Search
+- **Continuous Integration**: GitHub Actions CI/CD
+
+---
+
+## 🛠️ Tech Stack
+
 ### Frontend
-- **Framework**: React 19 + TypeScript
-- **Bundler**: Vite
-- **Styling**: Tailwind CSS v4 with a custom premium design system
+- **Framework**: React 19 + TypeScript 5
+- **Build Tool**: Vite 8
+- **Styling**: Tailwind CSS v4 with custom tokens
 - **Animations**: Framer Motion
-- **Utilities**: `html2canvas` & `jsPDF` for native draft exports
+- **Exports**: `html2canvas` & `jsPDF`
 
 ### Backend
-- **Runtime**: Node.js & Express + TypeScript
-- **Database**: MongoDB (Mongoose) with Vector Search indices
-- **AI Engine**: Google Gemini SDK (`gemini-2.5-flash`)
-- **Security**: Helmet, CORS, JWT session authorization, Bcrypt
+- **Runtime**: Node.js 20 & Express + TypeScript
+- **Database**: MongoDB Atlas Mongoose + `$vectorSearch` (768-dim embeddings)
+- **AI Services**: Google Gemini SDK (`text-embedding-004` & `gemini-1.5-flash`)
+- **Security**: JWT authorization, Bcrypt, CORS, Helmet
+
+---
+
+## 📁 Project Structure
+
+```
+setu-ai/
+├── client/                     # Frontend Vite React 19 Application
+│   ├── public/                 # Static assets & favicon
+│   └── src/
+│       ├── components/
+│       │   ├── effects/        # CustomCursor, Reveal, MagneticButton, TiltCard
+│       │   ├── layout/         # Header (Floating Glass Pill), Footer, BottomBar
+│       │   ├── Profile/        # Profile wizard step forms
+│       │   ├── ui/             # SearchableSelect, CommandPalette, Modal, Button
+│       │   └── widgets/        # WhatsAppWidget Assistant
+│       ├── context/            # AuthContext global state
+│       ├── data/               # indiaLocations.ts (28 States + 8 UTs)
+│       ├── pages/              # Landing, Profile, Results, Simulator, Draft, Compare
+│       ├── router/             # AppRouter & AnimatedRoutes with scroll reset
+│       ├── services/           # REST API client services
+│       └── utils/              # Validation, benefit parsers
+└── server/                     # Backend Express API Server
+    └── src/
+        ├── config/             # DB & Env configuration
+        ├── controllers/        # Auth, Match, Explain, Draft, Simulator controllers
+        ├── data/               # schemes.json (86 verified government schemes)
+        ├── middleware/         # Auth JWT verification middleware
+        ├── models/             # Mongoose Schemas (User, Scheme, Match, Reminder)
+        ├── routes/             # REST route definitions
+        ├── scripts/            # Database seed & Gemini embedding generation
+        ├── services/           # Hybrid matchingService, draftService, aiExplanation
+        └── utils/              # Hash, JWT token generators, cache
+```
 
 ---
 
 ## ⚙️ Local Development Setup
 
-To run this project locally on your machine, follow these steps.
-
-### Prerequisites
+### 1. Prerequisites
 - Node.js (v18+)
-- MongoDB instance (local or Atlas) with a Vector Index
+- MongoDB Atlas cluster with a `$vectorSearch` index created on `schemes` collection.
 
-### 1. Environment Configuration
+### 2. Environment Configuration
 
-Create a `.env` file in both `client/` and `server/` directories.
+Create `.env` files in both `client/` and `server/` directories:
 
 **client/.env**
 ```env
@@ -93,29 +180,29 @@ VITE_API_URL=http://localhost:5000
 **server/.env**
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/setu-ai
+MONGO_URI=your_mongodb_atlas_connection_string
 JWT_SECRET=your_jwt_secret_key
 CLIENT_URL=http://localhost:5173
-GEMINI_API_KEY=your_gemini_key
-TWILIO_ACCOUNT_SID=your_twilio_sid
-TWILIO_AUTH_TOKEN=your_twilio_token
+GEMINI_API_KEY=your_google_gemini_api_key
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
 TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886
 ```
 
-### 2. Run Backend & Seed Data
+### 3. Install & Run Server
 ```bash
 cd server
 npm install
 npm run dev
 ```
-In a separate terminal (to load the scheme database):
+
+To seed the 86 verified government schemes & generate Gemini vector embeddings:
 ```bash
-cd server
 npm run seed
 npm run embeddings
 ```
 
-### 3. Run Frontend
+### 4. Install & Run Client
 ```bash
 cd client
 npm install
@@ -125,15 +212,33 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 🗺️ Roadmap
-- [ ] **Multimodal Document OCR**: Upload Ration Cards to instantly pre-fill forms using Gemini Vision.
-- [ ] **Regional Language Translation**: Translate complex guidelines into Tamil, Telugu, and Bengali.
-- [ ] **Proactive Cron Alerts**: WhatsApp notifications for new schemes as they get announced.
+## 🗺️ Future Scope & Roadmap
+
+1. 🏛️ **Direct Government Portal & DigiLocker API Integration**: Automatic document verification (Aadhaar, Ration Cards, Income Certificates) via official India Stack APIs.
+2. 🎙️ **Vernacular Voice Agent (Voice RAG)**: Multilingual speech-to-text in Hindi, Bhojpuri, Tamil, Marathi, and Bengali.
+3. 📊 **Civic Welfare Analytics Dashboard**: B2G policy insights for district magistrates to track unmet welfare demand.
+4. 🔔 **Proactive Subsidy Renewal Cron Alerts**: Automated WhatsApp notifications before scheme application deadlines close.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- **Google Gemini API**: For `text-embedding-004` and `gemini-1.5-flash` intelligence.
+- **MongoDB Atlas**: For native Vector Search index support.
+- **Twilio**: For WhatsApp messaging sandbox integration.
+- **Vercel & Render**: For cloud hosting & deployment.
+- **Government of India (myScheme.gov.in)**: For open welfare criteria reference data.
 
 ---
 
 ## 👨‍💻 Creators
 
-Built with ❤️ by:
-- **Sparsh Gahoi** - [LinkedIn](https://www.linkedin.com/in/sparsh-gahoi-05a212342/)
-- **Yash Saxena** - [LinkedIn](https://www.linkedin.com/in/yash-saxena-21490a308/)
+Built with ❤️ for **Lenovo Leap Hackathon 2026** by:
+- **Sparsh Gahoi** — [LinkedIn](https://www.linkedin.com/in/sparsh-gahoi-05a212342/)
+- **Yash Saxena** — [LinkedIn](https://www.linkedin.com/in/yash-saxena-21490a308/)
